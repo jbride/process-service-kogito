@@ -43,7 +43,7 @@
   <bpmn2:signal id="_0f1a3c6a-b90f-39c1-aa93-8fb23bb7526c" name="MissionStarted"/>
   <bpmn2:signal id="_75c99422-410f-36ca-a413-66847c0ccb14" name="MissionAborted"/>
   <bpmn2:signal id="_8871ba0f-2fc4-3200-8929-06877e21f602" name="ResponderAvailable"/>
-  <bpmn2:process id="incident-process" drools:packageName="com.redhat.cajun.navy.process" drools:version="1.0" drools:adHoc="false" name="incident-process" isExecutable="true">
+  <bpmn2:process id="incidents" drools:packageName="com.redhat.cajun.navy.process" drools:version="1.0" drools:adHoc="false" name="incidents" isExecutable="true">
     <bpmn2:property id="incident" itemSubjectRef="_incidentItem" name="incident"/>
     <bpmn2:property id="destinations" itemSubjectRef="_destinationsItem" name="destinations"/>
     <bpmn2:property id="mission" itemSubjectRef="_missionItem" name="mission"/>
@@ -97,13 +97,11 @@
           <drools:metaValue><![CDATA[true]]></drools:metaValue>
         </drools:metaData>
       </bpmn2:extensionElements>
-      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_0DoxYe4VEeqSRa7AcNS_6A" language="http://www.java.com/java"><![CDATA[com.redhat.cajun.navy.rules.model.Mission _mission = (com.redhat.cajun.navy.rules.model.Mission)kcontext.getVariable("mission");
-return (_mission.getStatus() == com.redhat.cajun.navy.rules.model.Status.UNASSIGNED);]]></bpmn2:conditionExpression>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_0DoxYe4VEeqSRa7AcNS_6A" language="http://www.java.com/java"><![CDATA[return mission.getStatus() == com.redhat.cajun.navy.rules.model.Status.UNASSIGNED;]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
     <bpmn2:sequenceFlow id="_2DAF18ED-ED45-47B9-8E96-19C8873A7370" sourceRef="_7D98268D-FD97-4C06-A9D4-CCCF9919D5D7" targetRef="_DBCF20C3-4FB8-4D62-8C99-C7F90444211B"/>
     <bpmn2:sequenceFlow id="_7F8F5F06-906E-4A92-A098-66BC79DC4267" sourceRef="_BB949EFE-DB0B-44D3-90BB-6C844FDCA9C1" targetRef="_7D98268D-FD97-4C06-A9D4-CCCF9919D5D7">
-      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_0DoxYu4VEeqSRa7AcNS_6A" language="http://www.java.com/java"><![CDATA[com.redhat.cajun.navy.rules.model.Mission _mission = (com.redhat.cajun.navy.rules.model.Mission)kcontext.getVariable("mission");
-return (_mission.getStatus() == com.redhat.cajun.navy.rules.model.Status.ASSIGNED);]]></bpmn2:conditionExpression>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_0DoxYu4VEeqSRa7AcNS_6A" language="http://www.java.com/java"><![CDATA[return mission.getStatus() == com.redhat.cajun.navy.rules.model.Status.ASSIGNED;]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
     <bpmn2:sequenceFlow id="_9F3A9832-A76F-4C3E-BD66-E2F1FA7FF0A4" sourceRef="_2B28FE5C-A836-40C4-BDF5-E2DA580BFA39" targetRef="_F7B4AB91-88DB-4AB9-A5EF-860E41AEDE46">
       <bpmn2:extensionElements>
@@ -121,8 +119,7 @@ return (_mission.getStatus() == com.redhat.cajun.navy.rules.model.Status.ASSIGNE
           <drools:metaValue><![CDATA[true]]></drools:metaValue>
         </drools:metaData>
       </bpmn2:extensionElements>
-      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_0DoxY-4VEeqSRa7AcNS_6A" language="http://www.java.com/java"><![CDATA[Boolean _isAvailable = (Boolean)kcontext.getVariable("responderIsAvailable");
-return (!_isAvailable);]]></bpmn2:conditionExpression>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_0DoxY-4VEeqSRa7AcNS_6A" language="http://www.java.com/java"><![CDATA[return responderIsAvailable;]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
     <bpmn2:sequenceFlow id="_143FACA9-0CB7-46F6-AB21-57071A2815EA" sourceRef="_DBCF20C3-4FB8-4D62-8C99-C7F90444211B" targetRef="_23E4B197-0C84-48CF-8D62-46C1687B8118"/>
     <bpmn2:sequenceFlow id="_EBBBF18F-BF1A-4A45-8F33-3A8B06F944AE" sourceRef="_BB912F76-78F8-43C2-A822-E08E871BFCFD" targetRef="_A3B5991F-1034-4DEE-B17A-F392EC47AC47">
@@ -185,8 +182,7 @@ return (!_isAvailable);]]></bpmn2:conditionExpression>
           <drools:metaValue><![CDATA[true]]></drools:metaValue>
         </drools:metaData>
       </bpmn2:extensionElements>
-      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_0DoxZO4VEeqSRa7AcNS_6A" language="http://www.java.com/java"><![CDATA[Boolean _isAvailable = (Boolean)kcontext.getVariable("responderIsAvailable");
-return (_isAvailable);]]></bpmn2:conditionExpression>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_0DoxZO4VEeqSRa7AcNS_6A" language="http://www.java.com/java"><![CDATA[return responderIsAvailable;]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
     <bpmn2:sequenceFlow id="_69BB3B66-62B4-4740-9D73-C6D1A7DF1F75" sourceRef="_FDA7AF13-3132-4581-9F50-18D4BA54F3A4" targetRef="_F8F5A0C6-3D90-4CAA-BBD5-5F1870166B1D">
       <bpmn2:extensionElements>
@@ -955,7 +951,7 @@ Aborted]]></drools:metaValue>
     </bpmn2:boundaryEvent>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="_0DpY2u4VEeqSRa7AcNS_6A">
-    <bpmndi:BPMNPlane id="_0DpY2-4VEeqSRa7AcNS_6A" bpmnElement="incident-process">
+    <bpmndi:BPMNPlane id="_0DpY2-4VEeqSRa7AcNS_6A" bpmnElement="incidents">
       <bpmndi:BPMNShape id="shape__FDA7AF13-3132-4581-9F50-18D4BA54F3A4" bpmnElement="_FDA7AF13-3132-4581-9F50-18D4BA54F3A4" isExpanded="true">
         <dc:Bounds height="225.0" width="1347.0" x="285.5" y="643.0"/>
       </bpmndi:BPMNShape>
