@@ -43,7 +43,7 @@
   <bpmn2:signal id="_0f1a3c6a-b90f-39c1-aa93-8fb23bb7526c" name="MissionStarted"/>
   <bpmn2:signal id="_75c99422-410f-36ca-a413-66847c0ccb14" name="MissionAborted"/>
   <bpmn2:signal id="_8871ba0f-2fc4-3200-8929-06877e21f602" name="ResponderAvailable"/>
-  <bpmn2:process id="incidents" drools:packageName="com.redhat.cajun.navy.process" drools:version="1.0" drools:adHoc="false" name="incidents" isExecutable="true">
+  <bpmn2:process id="incidentLifecycle" drools:packageName="com.redhat.cajun.navy.process" drools:version="1.0" drools:adHoc="false" name="incidentLifecycle" isExecutable="true">
     <bpmn2:property id="incident" itemSubjectRef="_incidentItem" name="incident"/>
     <bpmn2:property id="destinations" itemSubjectRef="_destinationsItem" name="destinations"/>
     <bpmn2:property id="mission" itemSubjectRef="_missionItem" name="mission"/>
@@ -951,7 +951,7 @@ Aborted]]></drools:metaValue>
     </bpmn2:boundaryEvent>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="_0DpY2u4VEeqSRa7AcNS_6A">
-    <bpmndi:BPMNPlane id="_0DpY2-4VEeqSRa7AcNS_6A" bpmnElement="incidents">
+    <bpmndi:BPMNPlane id="_0DpY2-4VEeqSRa7AcNS_6A" bpmnElement="incidentLifecycle">
       <bpmndi:BPMNShape id="shape__FDA7AF13-3132-4581-9F50-18D4BA54F3A4" bpmnElement="_FDA7AF13-3132-4581-9F50-18D4BA54F3A4" isExpanded="true">
         <dc:Bounds height="225.0" width="1347.0" x="285.5" y="643.0"/>
       </bpmndi:BPMNShape>

@@ -1,5 +1,9 @@
 # org.kie.kogito.kogito-quarkus-archetype - 0.14.0 #
 
+# Migration Journal
+
+[migration_journal](/migration_journal.adoc)
+
 # Running
 
 - Compile and Run

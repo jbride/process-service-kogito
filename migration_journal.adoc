@@ -1,0 +1,56 @@
+= RH-PAM 7 -> Kogito Migration Journal
+
+== Purpose
+Purpose of this document is to maintain a history of the migration effort of ER-Demo's _process-service_ from RH-PAM 7 (embedded in SpringBoot) to Kogito.
+
+== Summary
+
+. Accessibility of process variables
++
+Kogito provides direct reference to process variables from process tasks and conditionals.
+For example, instead of the following used in a BPMN2 for RH-PAM 7 :
++
+-----
+<![CDATA[Boolean _isAvailable = (Boolean)kcontext.getVariable("responderIsAvailable");
+return (_isAvailable);]]>
+-----
++
+the following can instead be written with a BPMN2 that runs in Kogito:
++
+-----
+return responderIsAvailable;
+-----
+
+. Process Id needs to facilitate auto-generation of Java class files
++
+Kogito auto-generates Java class files from the _processId_ of a BPMN2.
+Subsequently, the processId needs to be of a simple String convention with no special characters.
+
+
+== Journal Details
+
+. 15 September 2020
++
+.. New _process-service-quarkus_ project created without issues using the kogito maven archetype as follows:
++
+-----
+mvn archetype:generate \
+        -DinteractiveMode=false \
+        -DarchetypeGroupId=org.kie.kogito \
+        -DarchetypeArtifactId=kogito-quarkus-archetype \
+        -DarchetypeVersion=0.14.0 \
+        -DgroupId=com.redhat.cajun.navy \
+        -DartifactId=process-service-kogito \
+        -Dversion=0.0.1
+-----
+
+.. Kogito project to double as kjar
++
+In RH-PAM 7 based _process-service_, a separate _incident-process-jar_ (containing the link:https://github.com/Emergency-Response-Demo/incident-process-kjar/blob/master/src/main/resources/com/redhat/cajun/navy/process/incident-process.bpmn[incident-process.bpmn] ) is imported as a dependency.  With Kogito, it's a best practice to version control process and rules artifacts in the same kogito based business service.  Subsequently, _incident-process.bpmn_ was copied to the resources directory of _process-service-kogito_.
+
+.. Compilation errors with _process-service-kogito_
++
+... link:https://issues.redhat.com/browse/KOGITO-3353[KOGITO-3353]
+... processId renamed from _incident-process_ to the following to allow Kogito to generate Java classes using this processId :   _incidentLifecycle_.
+
+

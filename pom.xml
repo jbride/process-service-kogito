@@ -37,11 +37,6 @@
       <artifactId>cajun-navy-rules-model</artifactId>
       <version>${version.cajun-navy-rules-model}</version>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>com.redhat.cajun.navy</groupId>-->
-<!--      <artifactId>incident-process</artifactId>-->
-<!--      <version>${version.incident-process}</version>-->
-<!--    </dependency>-->
     <dependency>
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-quarkus</artifactId>
@@ -102,52 +97,6 @@
           </execution>
         </executions>
       </plugin>
-<!--      <plugin>-->
-<!--        <groupId>org.apache.maven.plugins</groupId>-->
-<!--        <artifactId>maven-dependency-plugin</artifactId>-->
-<!--        <version>3.1.1</version>-->
-<!--        <executions>-->
-<!--          <execution>-->
-<!--            <id>copy</id>-->
-<!--            <phase>package</phase>-->
-<!--            <goals>-->
-<!--              <goal>copy</goal>-->
-<!--            </goals>-->
-<!--          </execution>-->
-<!--        </executions>-->
-<!--        <configuration>-->
-<!--          <artifactItems>-->
-<!--            <artifactItem>-->
-<!--              <groupId>com.redhat.cajun.navy</groupId>-->
-<!--              <artifactId>cajun-navy-rules-model</artifactId>-->
-<!--              <version>${version.cajun-navy-rules-model}</version>-->
-<!--              <type>jar</type>-->
-<!--              <outputDirectory>${project.build.directory}/repository/com/redhat/cajun/navy/cajun-navy-rules-model/${version.cajun-navy-rules-model}</outputDirectory>-->
-<!--            </artifactItem>-->
-<!--            <artifactItem>-->
-<!--              <groupId>com.redhat.cajun.navy</groupId>-->
-<!--              <artifactId>cajun-navy-rules-model</artifactId>-->
-<!--              <version>${version.cajun-navy-rules-model}</version>-->
-<!--              <type>pom</type>-->
-<!--              <outputDirectory>${project.build.directory}/repository/com/redhat/cajun/navy/cajun-navy-rules-model/${version.cajun-navy-rules-model}</outputDirectory>-->
-<!--            </artifactItem>-->
-<!--            <artifactItem>-->
-<!--              <groupId>com.redhat.cajun.navy</groupId>-->
-<!--              <artifactId>cajun-navy-rules</artifactId>-->
-<!--              <version>${version.cajun-navy-rules}</version>-->
-<!--              <type>jar</type>-->
-<!--              <outputDirectory>${project.build.directory}/repository/com/redhat/cajun/navy/cajun-navy-rules/${version.cajun-navy-rules-model}</outputDirectory>-->
-<!--            </artifactItem>-->
-<!--            <artifactItem>-->
-<!--              <groupId>com.redhat.cajun.navy</groupId>-->
-<!--              <artifactId>cajun-navy-rules</artifactId>-->
-<!--              <version>${version.cajun-navy-rules}</version>-->
-<!--              <type>pom</type>-->
-<!--              <outputDirectory>${project.build.directory}/repository/com/redhat/cajun/navy/cajun-navy-rules/${version.cajun-navy-rules}</outputDirectory>-->
-<!--            </artifactItem>-->
-<!--          </artifactItems>-->
-<!--        </configuration>-->
-<!--      </plugin>-->
     </plugins>
   </build>
 
