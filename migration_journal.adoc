@@ -53,4 +53,9 @@ In RH-PAM 7 based _process-service_, a separate _incident-process-jar_ (containi
 ... link:https://issues.redhat.com/browse/KOGITO-3353[KOGITO-3353]
 ... processId renamed from _incident-process_ to the following to allow Kogito to generate Java classes using this processId :   _incidentLifecycle_.
 
+== Kogito related issues and enhancements
+
+- link:https://issues.redhat.com/browse/KOGITO-3161[KOGITO-3161]
+- link:https://issues.redhat.com/browse/KOGITO-3353[KOGITO-3353]
+
 
