@@ -29,7 +29,37 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
-. 24 September 2020
+. *25 September 2020*
+.. IncidentProcessTest
++
+Added first draft of this class by copying and pruning:  _org.acme.travel.MessagingIT.java_
+.. Add the following dependency in project pom:
++
+-----
+    <dependency>
+      <groupId>org.kie.kogito</groupId>
+      <artifactId>kogito-test-utils</artifactId>
+      <scope>test</scope>
+    </dependency>
+-----
+
+.. [red]#Unable to run junit test do to _test-containers_ dependency on docker#
++
+-----
+ERROR: ping failed with configuration Environment variables, system properties and defaults. Resolved dockerHost=unix:///var/run/docker.sock due to org.rnorth.ducttape.TimeoutException: Timeout waiting for result with exception
+org.rnorth.ducttape.TimeoutException: Timeout waiting for result with exception
+	at org.rnorth.ducttape.unreliables.Unreliables.retryUntilSuccess(Unreliables.java:54)
+	at org.testcontainers.dockerclient.DockerClientProviderStrategy.ping(DockerClientProviderStrategy.java:182)
+	at org.testcontainers.dockerclient.EnvironmentAndSystemPropertyClientProviderStrategy.test(EnvironmentAndSystemPropertyClientProviderStrategy.java:41)
+-----
+
+... In my dev environment, I only use podman, buildah and skopeo
+... Need to research progress using _test-containers_ suite and podman
+
+.... https://github.com/testcontainers/testcontainers-java/issues/2088
+.... https://lists.podman.io/archives/list/podman@lists.podman.io/thread/5K6ZOTYDISZEXCHWJJD3RFNKM33NHEDI/
+
+. *24 September 2020*
 
 .. Upgrade to kogito 0.15.0 (which also bumped quarkus to: 1.8.0 )
 
@@ -83,7 +113,7 @@ image::images/sept_24_2020.png[]
 
 
 
-. 15 September 2020
+. *15 September 2020*
 +
 .. New _process-service-quarkus_ project created without issues using the kogito maven archetype as follows:
 +
