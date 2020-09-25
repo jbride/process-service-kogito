@@ -8,15 +8,13 @@
   <description>Generated project process-service-kogito</description>
 
   <properties>
-    <quarkus.version>1.7.0.Final</quarkus.version>
-    <kogito.version>0.14.0</kogito.version>
+    <quarkus.version>1.8.0.Final</quarkus.version>
+    <kogito.version>0.15.0</kogito.version>
     <surefire.version>2.22.2</surefire.version>
     <compiler.version>3.8.1</compiler.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>11</maven.compiler.release> 
     <version.cajun-navy-rules-model>1.1.0-SNAPSHOT</version.cajun-navy-rules-model>
-    <version.cajun-navy-rules>1.1.0-SNAPSHOT</version.cajun-navy-rules>
-    <version.incident-process>1.1.0-SNAPSHOT</version.incident-process>
   </properties>
 
   <dependencyManagement>
@@ -56,6 +54,18 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
+    </dependency>
+        <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-health</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-kubernetes-config</artifactId>
     </dependency>
 
     <dependency>

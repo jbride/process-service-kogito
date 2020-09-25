@@ -29,6 +29,60 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
+. 24 September 2020
+
+.. Upgrade to kogito 0.15.0 (which also bumped quarkus to: 1.8.0 )
+
+.. Temporarily stub RESTful service tasks in _incident-process_ BPMN2 until a (Fuse / Camel based) ServiceTask capability is available in Kogito
++
+Use the following as examples:
+
+*** https://github.com/kiegroup/kogito-examples/tree/stable/kogito-travel-agency/basic#business-logic
+*** https://github.com/kiegroup/kogito-examples/blob/stable/kogito-travel-agency/basic/src/main/java/org/acme/travels/service/FlightBookingService.java
+
+.. [red]#Kogito docs currently not helpful with creating custom Service Tasks#
+.. [red]#Kogito docs currently not helpful with updating the BPMN2 to reference new Service Tasks#
+
+
+.. Business Rule Task
+... RH-PAM implemention of Incident Process implements link:https://github.com/Emergency-Response-Demo/process-service/blob/master/src/main/java/com/redhat/cajun/navy/process/wih/BusinessRuleTaskHandlerWrapper.java[a custom WIH] to execute business rules.  This is a wrapper around the OOTB BusinessRuleTask.
+... [red]#TO-DO:#  investigate why not the use of the OOTB BusinessRuleTaskHandler directly.
+... link:https://github.com/Emergency-Response-Demo/cajun-navy-rules/blob/master/src/main/resources/com.redhat.cajun.navy.rules/IncidentResponderAssignment.drl[IncidentResponderAssignment] technical rules do not have a ruleflow-group associated with them.
+... Subsequently, the following build-time exception is thrown when compiling the business process with a BusinessRuleTask and empty _RuleFlowGroup_ field:
++
+-----
+Caused by: java.lang.IllegalArgumentException: Rule task "Assign Mission" is invalid: you did not set a unit name, a rule flow group or a decision model
+-----
+
+... Will modify all IncidentResponderAssignment rules to include a RuleFlowGroup
+
+
+
+.. Define all outgoing and incoming Kafka topic connectors in:   src/main/resources/application.properties
+
+.. IntermediateThrowEvent:
+
+... Should the _message_ field be populated with the kafka topic name (as defined in application.properties ) ?
++
+At authoring time, the previously defined kafka connectors (in application.properties) do not populate drop downs in intermediateThrow and intermediateCatch events of BPMN2.   Are they suppose to ?
+
+... In _travels.bpmn2_, what is _Message_5_Input_ ?
+
+... No *OnEntry Action*
++
+Prior to _Incident Un-Assignment Event_, will need to introduce a script task
+
+.. IntermediateCatchEvent
+
+... How to filter out irrelevant messages that may be sent to topics that IntermediateCatchEvent is listening on ?
+... How will the auto-generated process the incoming message and invoke the correct signal along with the correct corresponding payload ? ie:  link:https://github.com/Emergency-Response-Demo/process-service/blob/master/src/main/java/com/redhat/cajun/navy/process/message/listeners/ResponderUpdatedEventMessageListener.java#L80[ResponderUpdatedEventMessageListener]
+
+.. Modified _incident-process_ as follows:
++
+image::images/sept_24_2020.png[]
+
+
+
 . 15 September 2020
 +
 .. New _process-service-quarkus_ project created without issues using the kogito maven archetype as follows:
@@ -47,8 +101,12 @@ mvn archetype:generate \
 .. Kogito project to double as kjar
 +
 In RH-PAM 7 based _process-service_, a separate _incident-process-jar_ (containing the link:https://github.com/Emergency-Response-Demo/incident-process-kjar/blob/master/src/main/resources/com/redhat/cajun/navy/process/incident-process.bpmn[incident-process.bpmn] ) is imported as a dependency.  With Kogito, it's a best practice to version control process and rules artifacts in the same kogito based business service.  Subsequently, _incident-process.bpmn_ was copied to the resources directory of _process-service-kogito_.
++
+Original process definition is as follows:
++
+image::images/incident-process.png[]
 
-.. Compilation errors with _process-service-kogito_
+.. [red]#Compilation errors with _process-service-kogito_#
 +
 ... link:https://issues.redhat.com/browse/KOGITO-3353[KOGITO-3353]
 ... processId renamed from _incident-process_ to the following to allow Kogito to generate Java classes using this processId :   _incidentLifecycle_.
