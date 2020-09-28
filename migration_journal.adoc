@@ -61,6 +61,10 @@ org.rnorth.ducttape.TimeoutException: Timeout waiting for result with exception
 
 . *24 September 2020*
 
+.. Modified _incident-process_ as follows:
++
+image::images/sept_24_2020.png[]
+
 .. Upgrade to kogito 0.15.0 (which also bumped quarkus to: 1.8.0 )
 
 .. Temporarily stub RESTful service tasks in _incident-process_ BPMN2 until a (Fuse / Camel based) ServiceTask capability is available in Kogito
@@ -71,20 +75,23 @@ Use the following as examples:
 *** https://github.com/kiegroup/kogito-examples/blob/stable/kogito-travel-agency/basic/src/main/java/org/acme/travels/service/FlightBookingService.java
 
 .. [red]#Kogito docs currently not helpful with creating custom Service Tasks#
-.. [red]#Kogito docs currently not helpful with updating the BPMN2 to reference new Service Tasks#
+.. [red]#Kogito docs currently not helpful with updating the process definition to reference new Service Tasks#
 
 
 .. Business Rule Task
-... RH-PAM implemention of Incident Process implements link:https://github.com/Emergency-Response-Demo/process-service/blob/master/src/main/java/com/redhat/cajun/navy/process/wih/BusinessRuleTaskHandlerWrapper.java[a custom WIH] to execute business rules.  This is a wrapper around the OOTB BusinessRuleTask.
-... [red]#TO-DO:#  investigate why not the use of the OOTB BusinessRuleTaskHandler directly.
-... link:https://github.com/Emergency-Response-Demo/cajun-navy-rules/blob/master/src/main/resources/com.redhat.cajun.navy.rules/IncidentResponderAssignment.drl[IncidentResponderAssignment] technical rules do not have a ruleflow-group associated with them.
-... Subsequently, the following build-time exception is thrown when compiling the business process with a BusinessRuleTask and empty _RuleFlowGroup_ field:
+... RH-PAM implemention of Incident Process implements link:https://github.com/Emergency-Response-Demo/process-service/blob/master/src/main/java/com/redhat/cajun/navy/process/wih/BusinessRuleTaskHandlerWrapper.java[a custom WIH] to execute business rules.
+.... This is a wrapper around the OOTB BusinessRuleTask.
+.... Rules are loaded as per GAV
+.... [red]#TO-DO:#  investigate why not the use of the OOTB BusinessRuleTaskHandler directly in RH-PAM based incident-process-kjar implementation.
+...  [red]#Requirement for RuleUnit or RuleFlowGroup ?#
+.... link:https://github.com/Emergency-Response-Demo/cajun-navy-rules/blob/master/src/main/resources/com.redhat.cajun.navy.rules/IncidentResponderAssignment.drl[IncidentResponderAssignment] technical rules do not have a ruleflow-group associated with them.
+.... Subsequently, the following build-time exception is thrown when compiling the business process with a BusinessRuleTask and empty _RuleFlowGroup_ field:
 +
 -----
 Caused by: java.lang.IllegalArgumentException: Rule task "Assign Mission" is invalid: you did not set a unit name, a rule flow group or a decision model
 -----
 
-... Will modify all IncidentResponderAssignment rules to include a RuleFlowGroup
+.... Will modify all IncidentResponderAssignment rules to include a RuleFlowGroup
 
 
 
@@ -102,14 +109,17 @@ At authoring time, the previously defined kafka connectors (in application.prope
 +
 Prior to _Incident Un-Assignment Event_, will need to introduce a script task
 
-.. IntermediateCatchEvent
+.. [red]#IntermediateCatchEvent#
 
-... How to filter out irrelevant messages that may be sent to topics that IntermediateCatchEvent is listening on ?
-... How will the auto-generated process the incoming message and invoke the correct signal along with the correct corresponding payload ? ie:  link:https://github.com/Emergency-Response-Demo/process-service/blob/master/src/main/java/com/redhat/cajun/navy/process/message/listeners/ResponderUpdatedEventMessageListener.java#L80[ResponderUpdatedEventMessageListener]
+... How will auto-generated message consumer grab correlationKey from message ? ie:  link:https://github.com/Emergency-Response-Demo/process-service/blob/master/src/main/java/com/redhat/cajun/navy/process/message/listeners/ResponderUpdatedEventMessageListener.java#L79[ResponderUpdatedEventMessageListener : L79]
 
-.. Modified _incident-process_ as follows:
+... How to filter out irrelevant messages that may be sent to topics that IntermediateCatchEvent is listening on ? ie:  link:https://github.com/Emergency-Response-Demo/process-service/blob/master/src/main/java/com/redhat/cajun/navy/process/message/listeners/ResponderUpdatedEventMessageListener.java#L92-L104[ResponderUpdatedEventMessageListener : 90-104]
+
+... How will the auto-generated messsage consumer process the incoming message and invoke the correct signal along with the correct corresponding payload ? ie: link:https://github.com/Emergency-Response-Demo/process-service/blob/master/src/main/java/com/redhat/cajun/navy/process/message/listeners/MissionEventTopicListener.java#L97[MissionEventTopicListener : 97]
 +
-image::images/sept_24_2020.png[]
+image::images/incident-process-original-with-consumer-topics.png[]
+
+
 
 
 
