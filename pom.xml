@@ -9,7 +9,7 @@
 
   <properties>
     <quarkus.version>1.8.0.Final</quarkus.version>
-    <kogito.version>0.15.0</kogito.version>
+    <kogito.version>0.16.0</kogito.version>
     <surefire.version>2.22.2</surefire.version>
     <compiler.version>3.8.1</compiler.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

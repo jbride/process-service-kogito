@@ -26,8 +26,46 @@ return responderIsAvailable;
 Kogito auto-generates Java class files from the _processId_ of a BPMN2.
 Subsequently, the processId needs to be of a simple String convention with no special characters.
 
+. SmallRyeReactiveMessagingLifecycle (used in Kogito) does not allow app to both consume and produce messages to the same Kafka topic (ie: *topic-incident-event*).
+... [red]#Recommendation:  Detail this restriction in Kogito docs#.
+... [red]#Recommendation:  In ER-Demo, create additional outgoing topic called:  *topic-incident-assignment-event*#
+
 
 == Journal Details
+
+. *19 October 2020*
+
+.. Two BPMN2 definitions in same project with same processId.  [red]#kogito compiler does not identify this conflict upfront.  Downstream consequences occur#
+
+.. SmallRyeReactiveMessagingLifecycle does not allow app to both consume and produce messages to the same Kafka topic (ie: *topic-incident-event*).
+... The following is thrown when executing com.redhat.cajun.navy.process.IncidentProcessTest
++
+-----
+Caused by: javax.enterprise.inject.spi.DeploymentException: SRMSG00073: Invalid configuration, the following channel names cannot be used for both incoming and outgoing: [topic-incident-event]
+	at io.smallrye.reactive.messaging.impl.ConfiguredChannelFactory.detectNameConflict(ConfiguredChannelFactory.java:144)
+	at io.smallrye.reactive.messaging.impl.ConfiguredChannelFactory.initialize(ConfiguredChannelFactory.java:125)
+	at io.smallrye.reactive.messaging.impl.ConfiguredChannelFactory_ClientProxy.initialize(ConfiguredChannelFactory_ClientProxy.zig:265)
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:133)
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1801)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:658)
+	at io.smallrye.reactive.messaging.extension.MediatorManager.initializeAndRun(MediatorManager.java:161)
+	at io.smallrye.reactive.messaging.extension.MediatorManager_ClientProxy.initializeAndRun(MediatorManager_ClientProxy.zig:325)
+	at io.quarkus.smallrye.reactivemessaging.runtime.SmallRyeReactiveMessagingLifecycle.onApplicationStart(SmallRyeReactiveMessagingLifecycle.java:20)
+-----
+... [red]#Recommendation:  Detail this restriction in Kogito docs#.
+... [red]#Recommendation:  In ER-Demo, create additional outgoing topic called:  *topic-incident-assignment-event*#
+
+.. SmallRye doesn't allow multiple consumers on same Kafka topic:
++
+-----
+Oct 19, 2020 1:41:09 PM io.smallrye.reactive.messaging.kafka.impl.KafkaSource lambda$new$13
+ERROR: SRMSG18217: Unable to read a record from Kafka topics '[topic-mission-event]'
+java.lang.IllegalStateException: This processor allows only a single Subscriber
+	at io.smallrye.mutiny.vertx.MultiReadStream.subscribe(MultiReadStream.java:62)
+	at io.smallrye.mutiny.operators.AbstractMulti.subscribe(AbstractMulti.java:23)
+	at io.smallrye.mutiny.groups.MultiSubscribe.withSubscriber(MultiSubscribe.java:68)
+	at io.smallrye.mutiny.operators.multi.MultiSignalConsumerOp.subscribe(MultiSignalConsumerOp.java:50)
+-----
 
 . *25 September 2020*
 .. IncidentProcessTest
@@ -114,6 +152,8 @@ Prior to _Incident Un-Assignment Event_, will need to introduce a script task
 ... How will auto-generated message consumer grab correlationKey from message ? ie:  link:https://github.com/Emergency-Response-Demo/process-service/blob/master/src/main/java/com/redhat/cajun/navy/process/message/listeners/ResponderUpdatedEventMessageListener.java#L79[ResponderUpdatedEventMessageListener : L79]
 
 ... How to filter out irrelevant messages that may be sent to topics that IntermediateCatchEvent is listening on ? ie:  link:https://github.com/Emergency-Response-Demo/process-service/blob/master/src/main/java/com/redhat/cajun/navy/process/message/listeners/ResponderUpdatedEventMessageListener.java#L92-L104[ResponderUpdatedEventMessageListener : 90-104]
++
+AMQ Streams / Kafka doesn't support *message selectors* (ie:  similar to Activemq Artemis)
 
 ... How will the auto-generated messsage consumer process the incoming message and invoke the correct signal along with the correct corresponding payload ? ie: link:https://github.com/Emergency-Response-Demo/process-service/blob/master/src/main/java/com/redhat/cajun/navy/process/message/listeners/MissionEventTopicListener.java#L97[MissionEventTopicListener : 97]
 +

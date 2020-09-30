@@ -35,9 +35,8 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTestResource(KafkaQuarkusTestResource.class)
 public class IncidentProcessTest {
 
-    public static final String TOPIC_PRODUCER = "travellers";
-    public static final String TOPIC_CONSUMER = "processedtravellers";
     private static Logger LOGGER = LoggerFactory.getLogger(IncidentProcessTest.class);
+    private static String MISSION_EVENT_TOPIC = "topic-mission-event";
 
     @Inject
     private ObjectMapper objectMapper;
@@ -56,7 +55,7 @@ public class IncidentProcessTest {
         final int count = 3;
         final CountDownLatch countDownLatch = new CountDownLatch(count);
 
-        kafkaClient.consume(TOPIC_CONSUMER, s -> {
+        kafkaClient.consume(MISSION_EVENT_TOPIC, s -> {
             LOGGER.info("Received from kafka: {}", s);
             try {
                 JsonNode event = objectMapper.readValue(s, JsonNode.class);
@@ -68,32 +67,9 @@ public class IncidentProcessTest {
             }
         });
 
-/*
-        IntStream.range(0, count)
-                .mapToObj(i -> new Traveller("Name" + i, "LastName" + i, "email" + i, "Nationality" + i))
-                 .forEach(traveller -> kafkaClient.produce(generateCloudEvent(traveller), TOPIC_PRODUCER));
-*/
-
         countDownLatch.await(5, TimeUnit.SECONDS);
         assertEquals(countDownLatch.getCount(), 0);
     }
-
-/*
-    private String generateCloudEvent(Traveller traveller) {
-        assertFalse(traveller.isProcessed());
-        try {
-            return objectMapper.writeValueAsString(CloudEventBuilder.builder()
-                                                           .withId(UUID.randomUUID().toString())
-                                                           .withSource(URI.create(""))
-                                                           .withType("TravelersMessageDataEvent_3")
-                                                           .withTime(ZonedDateTime.now())
-                                                           .withData(traveller)
-                                                           .build());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-*/
 
     @After
     public void stop() {
