@@ -33,6 +33,11 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
+. *21 October 2020*
+
+.. Specifying multiple inbound and outgoing messaging channels in application.properties for each topic has resolved issues thrown by smallrye.
+
+
 . *19 October 2020*
 
 .. Two BPMN2 definitions in same project with same processId.  [red]#kogito compiler does not identify this conflict upfront.  Downstream consequences occur#

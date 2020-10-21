@@ -1,5 +1,7 @@
 package com.redhat.cajun.navy.process;
 
+import com.redhat.cajun.navy.rules.model.Status;
+import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -31,12 +33,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 
+import com.redhat.cajun.navy.rules.model.Mission;
+
 @QuarkusTest
 @QuarkusTestResource(KafkaQuarkusTestResource.class)
-public class IncidentProcessTest {
+public class MissionLifecycleTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(IncidentProcessTest.class);
-    private static String MISSION_EVENT_TOPIC = "topic-mission-event";
+    private static Logger LOGGER = LoggerFactory.getLogger(MissionLifecycleTest.class);
+    private static String MISSION_CREATED_TOPIC = "topic-mission-event-created";
 
     @Inject
     private ObjectMapper objectMapper;
@@ -47,19 +51,18 @@ public class IncidentProcessTest {
     private String kafkaBootstrapServers;
 
     @Test
-    public void testProcess() throws InterruptedException {
+    public void testProcess() throws InterruptedException, JsonProcessingException {
         objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
         kafkaClient = new KafkaClient(kafkaBootstrapServers);
 
         //number of generated events to test
-        final int count = 3;
+        final int count = 1;
         final CountDownLatch countDownLatch = new CountDownLatch(count);
 
-        kafkaClient.consume(MISSION_EVENT_TOPIC, s -> {
+        kafkaClient.consume(MISSION_CREATED_TOPIC, s -> {
             LOGGER.info("Received from kafka: {}", s);
             try {
-                JsonNode event = objectMapper.readValue(s, JsonNode.class);
-                //Traveller traveller = objectMapper.readValue(event.get("data").toString(), Traveller.class);
+                Mission mObj = objectMapper.readValue(s, Mission.class);
                 countDownLatch.countDown();
             } catch (JsonProcessingException e) {
                 LOGGER.error("Error parsing {}", s, e);
@@ -67,8 +70,31 @@ public class IncidentProcessTest {
             }
         });
 
+    
+    String mJson = generateEvent(createMission());
+	kafkaClient.produce(mJson, MISSION_CREATED_TOPIC);
+
         countDownLatch.await(5, TimeUnit.SECONDS);
         assertEquals(countDownLatch.getCount(), 0);
+    }
+
+    private Mission createMission() {
+        Mission mObj = new Mission();
+        mObj.setIncidentLat(new BigDecimal(0.0));
+        mObj.setIncidentLong(new BigDecimal(0.0));
+        mObj.setDestinationLat(new BigDecimal(1.0));
+        mObj.setDestinationLong(new BigDecimal(1.0));
+        mObj.setIncidentId("incident1");
+        mObj.setResponderId("responder1");
+        mObj.setResponderStartLat(new BigDecimal(2.0));
+        mObj.setResponderStartLong(new BigDecimal(2.0));
+        mObj.setLastUpdate(System.currentTimeMillis());
+        mObj.setStatus(Status.REQUESTED);
+        return mObj;
+    }
+
+    private String generateEvent(Mission mObj) throws JsonProcessingException {
+      return objectMapper.writeValueAsString(mObj);
     }
 
     @After

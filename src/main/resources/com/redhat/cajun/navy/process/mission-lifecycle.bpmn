@@ -1,4 +1,4 @@
-<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" id="_bP9VIPRfEDiD_P0DcYgP7g" exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
+<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" id="_mNTMIPXCEDi9Y_BHE_Touw" exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
   <bpmn2:itemDefinition id="_incidentItem" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
   <bpmn2:itemDefinition id="_destinationsItem" structureRef="com.redhat.cajun.navy.rules.model.Destinations"/>
   <bpmn2:itemDefinition id="_missionItem" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
@@ -8,33 +8,33 @@
   <bpmn2:itemDefinition id="_nrAssignmentsItem" structureRef="Integer"/>
   <bpmn2:itemDefinition id="_incidentPriorityItem" structureRef="com.redhat.cajun.navy.rules.model.IncidentPriority"/>
   <bpmn2:itemDefinition id="__5EC39534-186B-494E-866C-B160C939D6C8_PayloadOutputXItem" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
-  <bpmn2:itemDefinition id="topic-mission-eventType" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
+  <bpmn2:itemDefinition id="topic-mission-event-droppedoffType" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
   <bpmn2:itemDefinition id="__6DF42BBE-29BC-4CA0-800C-BD2FF5B30934_PayloadOutputXItem" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
-  <bpmn2:itemDefinition id="topic-mission-eventType" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
+  <bpmn2:itemDefinition id="topic-mission-event-pickedupType" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
   <bpmn2:itemDefinition id="__63433F1A-7F91-4CED-8723-8DE59C3A264A_PayloadOutputXItem" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
-  <bpmn2:itemDefinition id="topic-mission-eventType" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
+  <bpmn2:itemDefinition id="topic-mission-event-startedType" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
   <bpmn2:itemDefinition id="__209477EA-804F-477A-AAD0-75EF92342928_PayloadInputXItem" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
-  <bpmn2:itemDefinition id="topic-incident-commandType" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
+  <bpmn2:itemDefinition id="topic-incident-command-assignedType" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
   <bpmn2:itemDefinition id="__5D7F9C5D-483B-4309-AE6D-7044B3C000DF_PayloadInputXItem" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
-  <bpmn2:itemDefinition id="topic-incident-commandType" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
+  <bpmn2:itemDefinition id="topic-incident-command-pickedupType" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
   <bpmn2:itemDefinition id="__B3BABDDE-FB9A-43E4-805C-21DC498486D4_PayloadInputXItem" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
-  <bpmn2:itemDefinition id="topic-incident-commandType" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
+  <bpmn2:itemDefinition id="topic-incident-command-abortedType" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
   <bpmn2:itemDefinition id="__5179B8E1-A6DF-467D-97F1-8316690F663A_PayloadOutputXItem" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
-  <bpmn2:itemDefinition id="topic-mission-eventType" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
+  <bpmn2:itemDefinition id="topic-mission-event-abortedType" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
   <bpmn2:itemDefinition id="__EA53F7CF-B973-448F-BC27-9C98B4F9E1B9_PayloadInputXItem" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
   <bpmn2:itemDefinition id="topic-incident-commandType" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
   <bpmn2:itemDefinition id="__0C3DF3FF-DD24-4680-9D7B-7C3EA6EBA3BD_PayloadOutputXItem" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
-  <bpmn2:itemDefinition id="topic-mission-eventType" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
-  <bpmn2:message id="_bQC0sPRfEDiD_P0DcYgP7g" itemRef="topic-mission-eventType" name="topic-mission-event"/>
-  <bpmn2:message id="_bQC0sfRfEDiD_P0DcYgP7g" itemRef="topic-mission-eventType" name="topic-mission-event"/>
-  <bpmn2:message id="_bQDbwPRfEDiD_P0DcYgP7g" itemRef="topic-mission-eventType" name="topic-mission-event"/>
-  <bpmn2:message id="_bQDbwfRfEDiD_P0DcYgP7g" itemRef="topic-incident-commandType" name="topic-incident-command"/>
-  <bpmn2:message id="_bQEC0PRfEDiD_P0DcYgP7g" itemRef="topic-incident-commandType" name="topic-incident-command"/>
-  <bpmn2:message id="_bQEC0fRfEDiD_P0DcYgP7g" itemRef="topic-incident-commandType" name="topic-incident-command"/>
-  <bpmn2:message id="_bQEp4PRfEDiD_P0DcYgP7g" itemRef="topic-mission-eventType" name="topic-mission-event"/>
-  <bpmn2:message id="_bQEp4fRfEDiD_P0DcYgP7g" itemRef="topic-incident-commandType" name="topic-incident-command"/>
-  <bpmn2:message id="_bQEp4vRfEDiD_P0DcYgP7g" itemRef="topic-mission-eventType" name="topic-mission-event"/>
-  <bpmn2:process id="missionLifecycle" drools:packageName="com.redhat.cajun.navy.process" drools:version="1.0" drools:adHoc="false" name="incidentLifecycle" isExecutable="true" processType="Public">
+  <bpmn2:itemDefinition id="topic-mission-event-createdType" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
+  <bpmn2:message id="_mNcWEPXCEDi9Y_BHE_Touw" itemRef="topic-mission-event-droppedoffType" name="topic-mission-event-droppedoff"/>
+  <bpmn2:message id="_mNeLQPXCEDi9Y_BHE_Touw" itemRef="topic-mission-event-pickedupType" name="topic-mission-event-pickedup"/>
+  <bpmn2:message id="_mNeyUPXCEDi9Y_BHE_Touw" itemRef="topic-mission-event-startedType" name="topic-mission-event-started"/>
+  <bpmn2:message id="_mNfZYPXCEDi9Y_BHE_Touw" itemRef="topic-incident-command-assignedType" name="topic-incident-command-assigned"/>
+  <bpmn2:message id="_mNfZYfXCEDi9Y_BHE_Touw" itemRef="topic-incident-command-pickedupType" name="topic-incident-command-pickedup"/>
+  <bpmn2:message id="_mNgAcPXCEDi9Y_BHE_Touw" itemRef="topic-incident-command-abortedType" name="topic-incident-command-aborted"/>
+  <bpmn2:message id="_mNgAcfXCEDi9Y_BHE_Touw" itemRef="topic-mission-event-abortedType" name="topic-mission-event-aborted"/>
+  <bpmn2:message id="_mNgngPXCEDi9Y_BHE_Touw" itemRef="topic-incident-commandType" name="topic-incident-command"/>
+  <bpmn2:message id="_mNhOkPXCEDi9Y_BHE_Touw" itemRef="topic-mission-event-createdType" name="topic-mission-event-created"/>
+  <bpmn2:process id="missionLifecycle" drools:packageName="com.redhat.cajun.navy.process" drools:version="1.0" drools:adHoc="false" name="missionLifecycle" isExecutable="true" processType="Public">
     <bpmn2:property id="incident" itemSubjectRef="_incidentItem" name="incident"/>
     <bpmn2:property id="destinations" itemSubjectRef="_destinationsItem" name="destinations"/>
     <bpmn2:property id="mission" itemSubjectRef="_missionItem" name="mission"/>
@@ -88,7 +88,7 @@
       <bpmn2:outputSet>
         <bpmn2:dataOutputRefs>_0C3DF3FF-DD24-4680-9D7B-7C3EA6EBA3BD_PayloadOutputX</bpmn2:dataOutputRefs>
       </bpmn2:outputSet>
-      <bpmn2:messageEventDefinition drools:msgref="topic-mission-event" messageRef="_bQEp4vRfEDiD_P0DcYgP7g"/>
+      <bpmn2:messageEventDefinition drools:msgref="topic-mission-event-created" messageRef="_mNhOkPXCEDi9Y_BHE_Touw"/>
     </bpmn2:startEvent>
     <bpmn2:intermediateThrowEvent id="_EA53F7CF-B973-448F-BC27-9C98B4F9E1B9" name="Update Incident&#10;Aborted">
       <bpmn2:extensionElements>
@@ -107,7 +107,7 @@ Aborted]]></drools:metaValue>
       <bpmn2:inputSet>
         <bpmn2:dataInputRefs>_EA53F7CF-B973-448F-BC27-9C98B4F9E1B9_PayloadInputX</bpmn2:dataInputRefs>
       </bpmn2:inputSet>
-      <bpmn2:messageEventDefinition drools:msgref="topic-incident-command" messageRef="_bQEp4fRfEDiD_P0DcYgP7g"/>
+      <bpmn2:messageEventDefinition drools:msgref="topic-incident-command" messageRef="_mNgngPXCEDi9Y_BHE_Touw"/>
     </bpmn2:intermediateThrowEvent>
     <bpmn2:endEvent id="_F7B4AB91-88DB-4AB9-A5EF-860E41AEDE46">
       <bpmn2:incoming>_12A3BAD1-1EF7-4010-9BAC-545AF2D11488</bpmn2:incoming>
@@ -220,7 +220,7 @@ Delivered]]></drools:metaValue>
         <bpmn2:inputSet>
           <bpmn2:dataInputRefs>_B3BABDDE-FB9A-43E4-805C-21DC498486D4_PayloadInputX</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
-        <bpmn2:messageEventDefinition drools:msgref="topic-incident-command" messageRef="_bQEC0fRfEDiD_P0DcYgP7g"/>
+        <bpmn2:messageEventDefinition drools:msgref="topic-incident-command-aborted" messageRef="_mNgAcPXCEDi9Y_BHE_Touw"/>
       </bpmn2:intermediateThrowEvent>
       <bpmn2:intermediateThrowEvent id="_5D7F9C5D-483B-4309-AE6D-7044B3C000DF" name="Update Incident&#10;Picked Up">
         <bpmn2:extensionElements>
@@ -239,7 +239,7 @@ Picked Up]]></drools:metaValue>
         <bpmn2:inputSet>
           <bpmn2:dataInputRefs>_5D7F9C5D-483B-4309-AE6D-7044B3C000DF_PayloadInputX</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
-        <bpmn2:messageEventDefinition drools:msgref="topic-incident-command" messageRef="_bQEC0PRfEDiD_P0DcYgP7g"/>
+        <bpmn2:messageEventDefinition drools:msgref="topic-incident-command-pickedup" messageRef="_mNfZYfXCEDi9Y_BHE_Touw"/>
       </bpmn2:intermediateThrowEvent>
       <bpmn2:intermediateThrowEvent id="_209477EA-804F-477A-AAD0-75EF92342928" name="Update Incident&#10;Assigned">
         <bpmn2:extensionElements>
@@ -258,7 +258,7 @@ Assigned]]></drools:metaValue>
         <bpmn2:inputSet>
           <bpmn2:dataInputRefs>_209477EA-804F-477A-AAD0-75EF92342928_PayloadInputX</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
-        <bpmn2:messageEventDefinition drools:msgref="topic-incident-command" messageRef="_bQDbwfRfEDiD_P0DcYgP7g"/>
+        <bpmn2:messageEventDefinition drools:msgref="topic-incident-command-assigned" messageRef="_mNfZYPXCEDi9Y_BHE_Touw"/>
       </bpmn2:intermediateThrowEvent>
       <bpmn2:startEvent id="_E5D11F7E-2348-4089-8699-253E52D9ABFD">
         <bpmn2:outgoing>_0B5603AE-6CFB-4238-9D75-EE1263B3EE32</bpmn2:outgoing>
@@ -280,7 +280,7 @@ Started]]></drools:metaValue>
         <bpmn2:outputSet>
           <bpmn2:dataOutputRefs>_63433F1A-7F91-4CED-8723-8DE59C3A264A_PayloadOutputX</bpmn2:dataOutputRefs>
         </bpmn2:outputSet>
-        <bpmn2:messageEventDefinition drools:msgref="topic-mission-event" messageRef="_bQDbwPRfEDiD_P0DcYgP7g"/>
+        <bpmn2:messageEventDefinition drools:msgref="topic-mission-event-started" messageRef="_mNeyUPXCEDi9Y_BHE_Touw"/>
       </bpmn2:intermediateCatchEvent>
       <bpmn2:intermediateCatchEvent id="_6DF42BBE-29BC-4CA0-800C-BD2FF5B30934" name="Evacuee&#10;Picked-up">
         <bpmn2:extensionElements>
@@ -299,7 +299,7 @@ Picked-up]]></drools:metaValue>
         <bpmn2:outputSet>
           <bpmn2:dataOutputRefs>_6DF42BBE-29BC-4CA0-800C-BD2FF5B30934_PayloadOutputX</bpmn2:dataOutputRefs>
         </bpmn2:outputSet>
-        <bpmn2:messageEventDefinition drools:msgref="topic-mission-event" messageRef="_bQC0sfRfEDiD_P0DcYgP7g"/>
+        <bpmn2:messageEventDefinition drools:msgref="topic-mission-event-pickedup" messageRef="_mNeLQPXCEDi9Y_BHE_Touw"/>
       </bpmn2:intermediateCatchEvent>
       <bpmn2:endEvent id="_2941BB73-A957-4613-9481-C83EB6F622B5">
         <bpmn2:incoming>_7D34E98D-C4E7-47D9-8287-D9C87A8DE92D</bpmn2:incoming>
@@ -321,7 +321,7 @@ Dropped-Off]]></drools:metaValue>
         <bpmn2:outputSet>
           <bpmn2:dataOutputRefs>_5EC39534-186B-494E-866C-B160C939D6C8_PayloadOutputX</bpmn2:dataOutputRefs>
         </bpmn2:outputSet>
-        <bpmn2:messageEventDefinition drools:msgref="topic-mission-event" messageRef="_bQC0sPRfEDiD_P0DcYgP7g"/>
+        <bpmn2:messageEventDefinition drools:msgref="topic-mission-event-droppedoff" messageRef="_mNcWEPXCEDi9Y_BHE_Touw"/>
       </bpmn2:intermediateCatchEvent>
     </bpmn2:subProcess>
     <bpmn2:boundaryEvent id="_5179B8E1-A6DF-467D-97F1-8316690F663A" drools:boundaryca="true" drools:dockerinfo="750^197|" name="Mission&#10;Aborted" attachedToRef="_FDA7AF13-3132-4581-9F50-18D4BA54F3A4">
@@ -340,7 +340,7 @@ Aborted]]></drools:metaValue>
       <bpmn2:outputSet>
         <bpmn2:dataOutputRefs>_5179B8E1-A6DF-467D-97F1-8316690F663A_PayloadOutputX</bpmn2:dataOutputRefs>
       </bpmn2:outputSet>
-      <bpmn2:messageEventDefinition drools:msgref="topic-mission-event" messageRef="_bQEp4PRfEDiD_P0DcYgP7g"/>
+      <bpmn2:messageEventDefinition drools:msgref="topic-mission-event-aborted" messageRef="_mNgAcfXCEDi9Y_BHE_Touw"/>
     </bpmn2:boundaryEvent>
   </bpmn2:process>
   <bpmndi:BPMNDiagram>
@@ -490,7 +490,7 @@ Aborted]]></drools:metaValue>
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </bpmn2:extensionElements>
-    <bpmn2:source>_bP9VIPRfEDiD_P0DcYgP7g</bpmn2:source>
-    <bpmn2:target>_bP9VIPRfEDiD_P0DcYgP7g</bpmn2:target>
+    <bpmn2:source>_mNTMIPXCEDi9Y_BHE_Touw</bpmn2:source>
+    <bpmn2:target>_mNTMIPXCEDi9Y_BHE_Touw</bpmn2:target>
   </bpmn2:relationship>
 </bpmn2:definitions>
