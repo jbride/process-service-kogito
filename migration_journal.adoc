@@ -41,6 +41,7 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 . *19 October 2020*
 
 .. Two BPMN2 definitions in same project with same processId.  [red]#kogito compiler does not identify this conflict upfront.  Downstream consequences occur#
+... Fixed by link:https://issues.redhat.com/browse/KOGITO-3681[KOGITO-3681]
 
 .. SmallRyeReactiveMessagingLifecycle does not allow app to both consume and produce messages to the same Kafka topic (ie: *topic-incident-event*).
 ... The following is thrown when executing com.redhat.cajun.navy.process.IncidentProcessTest
@@ -200,5 +201,6 @@ image::images/incident-process.png[]
 
 - link:https://issues.redhat.com/browse/KOGITO-3161[KOGITO-3161]
 - link:https://issues.redhat.com/browse/KOGITO-3353[KOGITO-3353]
+- link:https://issues.redhat.com/browse/KOGITO-3681[KOGITO-3681]
 
 
