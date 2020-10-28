@@ -1,8 +1,4 @@
-# org.kie.kogito.kogito-quarkus-archetype - 0.14.0 #
 
-https://github.com/kiegroup/kogito-apps/blob/master/data-index/data-index-service/data-index-service-common/src/test/java/org/kie/kogito/index/messaging/AbstractReactiveMessagingEventConsumerKafkaIT.java
-https://github.com/kiegroup/kogito-examples/blob/stable/process-kafka-quickstart-quarkus/src/test/java/org/acme/travel/MessagingIT.java
-https://smallrye.io/smallrye-reactive-messaging/smallrye-reactive-messaging/2.4/model/model.html#skipping
 
 # Migration Journal
 

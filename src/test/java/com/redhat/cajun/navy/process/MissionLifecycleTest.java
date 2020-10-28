@@ -59,6 +59,11 @@ public class MissionLifecycleTest {
         final int count = 1;
         final CountDownLatch countDownLatch = new CountDownLatch(count);
 
+        // https://github.com/kiegroup/kogito-examples/blob/stable/process-kafka-quickstart-quarkus/src/test/java/org/acme/travel/MessagingIT.java#L74-L96
+        // https://github.com/kiegroup/kogito-apps/blob/master/data-index/data-index-service/data-index-service-common/src/test/java/org/kie/kogito/index/messaging/AbstractReactiveMessagingEventConsumerKafkaIT.java
+        // https://github.com/kiegroup/kogito-examples/blob/stable/process-kafka-quickstart-quarkus/src/test/java/org/acme/travel/MessagingIT.java
+        // https://smallrye.io/smallrye-reactive-messaging/smallrye-reactive-messaging/2.4/model/model.html#skipping
+
         kafkaClient.consume(MISSION_CREATED_TOPIC, s -> {
             LOGGER.info("Received from kafka: {}", s);
             try {

@@ -26,9 +26,7 @@ return responderIsAvailable;
 Kogito auto-generates Java class files from the _processId_ of a BPMN2.
 Subsequently, the processId needs to be of a simple String convention with no special characters.
 
-. SmallRyeReactiveMessagingLifecycle (used in Kogito) does not allow app to both consume and produce messages to the same Kafka topic (ie: *topic-incident-event*).
-... [red]#Recommendation:  Detail this restriction in Kogito docs#.
-... [red]#Recommendation:  In ER-Demo, create additional outgoing topic called:  *topic-incident-assignment-event*#
+. The refactored ER-Demo process-service using Kogito makes heavy use of overloaded Kafka topics using multiple incoming client channels.  This should be documented and provided as an isolated quickstart in the kogito project as per link:https://issues.redhat.com/browse/KOGITO-3730[KOGITO-3730].
 
 
 == Journal Details
@@ -39,6 +37,10 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 
 . *19 October 2020*
+
+.. A new BPMN called *mission-lifecycle* has been created.  This process isolates the mission-lifecycle embedded sub-process from the original *incident-process*.
++
+image::images/mission-lifecycle.bpmn.png[]
 
 .. Two BPMN2 definitions in same project with same processId.  [red]#kogito compiler does not identify this conflict upfront.  Downstream consequences occur#
 ... Fixed by link:https://issues.redhat.com/browse/KOGITO-3681[KOGITO-3681]
