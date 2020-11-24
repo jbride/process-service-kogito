@@ -31,6 +31,52 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
+. *24 November 2020*
+
+.. Kogito BPMN plugin for VSCode (v0.8.0) does not update underlying itemDefinition when Intermediate Message Catch Event is modified.  ie: 
++
+-----
+<bpmn2:itemDefinition id="topic-responder-availability-verifiedType" structureRef="com.redhat.cajun.navy.process.message.model.ResponderUpdatedEvent"/>
+-----
+
+... Troubleshooting the root issue requires studying the BPMN XML.  No hints of a problem are provided via the editor.
+
+... Instead, the following is thrown during compilation:
++
+-----
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.709 s
+[INFO] Finished at: 2020-11-24T08:05:55-07:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal io.quarkus:quarkus-maven-plugin:1.8.0.Final:build (default) on project process-service-kogito: Failed to build quarkus application: io.quarkus.builder.BuildException: Build failure: Build failed due to errors
+[ERROR] 	[error]: Build step org.kie.kogito.quarkus.deployment.KogitoAssetsProcessor#generateModel threw an exception: java.lang.IllegalStateException: src/main/java/com/redhat/cajun/navy/process/IncidentLifecycleMessageConsumer_2.java (37:31) : incompatible types: com.redhat.cajun.navy.rules.model.Mission cannot be converted to com.redhat.cajun.navy.rules.model.Incident
+[ERROR] src/main/java/com/redhat/cajun/navy/process/IncidentLifecycleMessageConsumer_2.java (37:31) : incompatible types: com.redhat.cajun.navy.rules.model.Mission cannot be converted to com.redhat.cajun.navy.rules.model.Incident
+[ERROR] 	at org.kie.kogito.quarkus.deployment.InMemoryCompiler.compile(InMemoryCompiler.java:95)
+[ERROR] 	at org.kie.kogito.quarkus.deployment.KogitoAssetsProcessor.processGeneratedJavaSourceCode(KogitoAssetsProcessor.java:261)
+[ERROR] 	at org.kie.kogito.quarkus.deployment.KogitoAssetsProcessor.generateModel(KogitoAssetsProcessor.java:217)
+-----
++
+This error message leads the user to believe the error might be something other than a problem in the underlying BPMN XML.
+
+... Troubleshooting involves multiple steps:
+.... Study stack trace and open target/generated-source/kogito/com/redhat/cajun/navy/process/IncidentLifecycleMessageConsumer_2.java:37
+.... Notice that this function pertains to an incoming message channel:
++
+-----
+@org.eclipse.microprofile.reactive.messaging.Incoming("topic-incident-event-created")
+-----
+.... Question why this function is expecting an event type of Mission.class
+.... Study the BPMN XML in and around the use of:   topic-incident-event-created
+
+... To correct the problem, the user either has to manually fix the XML or delete the entire Intermediate Message Catch Event and re-create.
+
+.. Difficulties troubleshooting kafka from testcontainers
+
+... No exception is thrown to unit test when kafka producer is not connected to kafka broker
+... Consumer also provides no indication that it is not connected to kafka broker
+
 . *21 October 2020*
 
 .. Specifying multiple inbound and outgoing messaging channels in application.properties for each topic has resolved issues thrown by smallrye.
