@@ -250,5 +250,7 @@ image::images/incident-process.png[]
 - link:https://issues.redhat.com/browse/KOGITO-3161[KOGITO-3161]
 - link:https://issues.redhat.com/browse/KOGITO-3353[KOGITO-3353]
 - link:https://issues.redhat.com/browse/KOGITO-3681[KOGITO-3681]
+- link:https://issues.redhat.com/browse/KOGITO-3930[KOGITO-3930]
+- link:https://issues.redhat.com/browse/KOGITO-3931[KOGITO-3931]
 
 
