@@ -31,6 +31,35 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
+. *25 November 2020*
+
+.. org.kie.kogito.event.impl.DataEventConsumer appears to only implement (as of 0.17.0) starting a new process instance
+... Compare with org.kie.kogito.eventimpl.CloudEventConsumer, which implements both start and signalling of process instance
+
+.. The reason the DataEventConsumer is currently being used (by setting:  kogito.messaging.as-cloudevents=false) is because we are attempting to re-use existing payloads from brownfield app
++
+For the purpose of this exercise, we could switch to cloud-events if needed
+
+.. The runtime stack trace that indicates the problem is as follows:
++
+-----
+INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [cdi, kogito, kubernetes-client, mutiny, resteasy, resteasy-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, smallrye-reactive-messaging, smallrye-reactive-messaging-kafka, swagger-ui, vertx]
+INFO  [io.quarkus.deployment.dev.RuntimeUpdatesProcessor] (vert.x-worker-thread-11) Hot replace total time: 1.107s 
+ERROR [io.smallrye.reactive.messaging.provider] (vert.x-eventloop-thread-12) SRMSG00200: The method com.redhat.cajun.navy.process.MissionLifecycleMessageConsumer_14#consume has thrown an exception: java.lang.IllegalArgumentException: There is no start node that matches the trigger i-mission-event-started
+	at org.jbpm.ruleflow.instance.RuleFlowProcessInstance.internalStart(RuleFlowProcessInstance.java:39)
+	at org.jbpm.process.instance.impl.ProcessInstanceImpl.start(ProcessInstanceImpl.java:232)
+	at org.jbpm.workflow.instance.impl.WorkflowProcessInstanceImpl.start(WorkflowProcessInstanceImpl.java:473)
+	at org.jbpm.process.instance.LightProcessRuntime.startProcessInstance(LightProcessRuntime.java:174)
+	at org.jbpm.process.instance.LightProcessRuntime.startProcessInstance(LightProcessRuntime.java:161)
+	at org.kie.kogito.process.impl.AbstractProcessInstance.start(AbstractProcessInstance.java:212)
+	at org.kie.kogito.event.impl.DataEventConsumer.lambda$consume$0(DataEventConsumer.java:52)
+	at org.kie.kogito.services.uow.UnitOfWorkExecutor.executeInUnitOfWork(UnitOfWorkExecutor.java:33)
+	at org.kie.kogito.event.impl.DataEventConsumer.consume(DataEventConsumer.java:47)
+	at com.redhat.cajun.navy.process.MissionLifecycleMessageConsumer_14.consume(MissionLifecycleMessageConsumer_14.java:39)
+	at com.redhat.cajun.navy.process.MissionLifecycleMessageConsumer_14_ClientProxy.consume(MissionLifecycleMessageConsumer_14_ClientProxy.zig:214)
+	at com.redhat.cajun.navy.process.MissionLifecycleMessageConsumer_14_SmallRyeMessagingInvoker_consume_a793a9cc76abe8ea0eedf6d7f2db6d132889e355.invoke(MissionLifecycleMessageConsumer_14_SmallRyeMessagingInvoker_consume_a793a9cc76abe8ea0eedf6d7f2db6d132889e355.zig:48)
+-----
+
 . *24 November 2020*
 
 .. Kogito BPMN plugin for VSCode (v0.8.0) does not update underlying itemDefinition when Intermediate Message Catch Event is modified.  ie: 

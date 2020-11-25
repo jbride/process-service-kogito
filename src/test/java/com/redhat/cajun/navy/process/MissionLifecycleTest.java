@@ -23,21 +23,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 
-import com.redhat.cajun.navy.process.message.model.Mission;
+import com.redhat.cajun.navy.rules.model.Mission;
 import com.redhat.cajun.navy.rules.model.Incident;
 import com.redhat.cajun.navy.rules.model.Status;
 
 @QuarkusTest
-@QuarkusTestResource(KafkaQuarkusTestResource.class)
+//@QuarkusTestResource(KafkaQuarkusTestResource.class)
 public class MissionLifecycleTest {
 
-    private static final String I_INCIDENT_COMAMND_ASSIGNED = "i-incident-command-assigned";
-
-    private static final String O_MISSION_COMMAND_CREATED = "o-mission-command-created";
-    private static final String O_INCIDENT_COMMAND_ASSIGNED = "o-incident-command-assigned";
-    private static final String O_INCIDENT_COMMAND_PICKEDUP = "o-incident-command-pickedup";
-    private static final String O_INCIDENT_COMMAND_DELIVERED = "o-incident-command-delivered";
-    private static final String O_INCIDENT_COMMAND_ABORTED = "o-incident-command-aborted";
+    private static final String  TOPIC_MISSION_EVENT = "topic-mission-event";
+    private static final String TOPIC_INCIDENT_COMMAND = "topic-incident-command";
 
     private static Logger log = Logger.getLogger(MissionLifecycleTest.class);
     
@@ -61,7 +56,7 @@ public class MissionLifecycleTest {
         // https://github.com/kiegroup/kogito-apps/blob/master/data-index/data-index-service/data-index-service-common/src/test/java/org/kie/kogito/index/messaging/AbstractReactiveMessagingEventConsumerKafkaIT.java
         // https://smallrye.io/smallrye-reactive-messaging/smallrye-reactive-messaging/2.4/model/model.html#skipping
 
-        kafkaClient.consume(I_INCIDENT_COMAMND_ASSIGNED, s -> {
+        kafkaClient.consume(TOPIC_INCIDENT_COMMAND, s -> {
             try {
                 Incident iObj = objectMapper.readValue(s, Incident.class);
                 log.infov("Received incident with status: {0}", iObj.getStatus());
@@ -71,7 +66,7 @@ public class MissionLifecycleTest {
                 throw new RuntimeException(e);
             }
         });
-        sendEvent(missionObj, Mission.Status.CREATED, O_MISSION_COMMAND_CREATED);
+        sendEvent(missionObj, Status.UNASSIGNED, TOPIC_MISSION_EVENT);
 
 /*
         kafkaClient.consume(I_MISSION_STARTED_TOPIC_CHANNEL, s -> {
@@ -112,11 +107,11 @@ public class MissionLifecycleTest {
 */
     }
     
-    private void sendEvent(Mission missionObj, Mission.Status mStatus, String channel) throws JsonProcessingException, InterruptedException {
+    private void sendEvent(Mission missionObj, Status mStatus, String topic) throws JsonProcessingException, InterruptedException {
         missionObj.setStatus(mStatus);
         String mJson = generateEvent(missionObj);
-        kafkaClient.produce(mJson, channel);
-        log.infov("Sent event to channel: {0}", channel);
+        kafkaClient.produce(mJson, topic);
+        log.infov("Sent event to topic: {0}", topic);
         Thread.sleep(sleepBetweenStateChanges);
     }
 
@@ -131,7 +126,6 @@ public class MissionLifecycleTest {
         mObj.setResponderStartLat(new BigDecimal(2.0));
         mObj.setResponderStartLong(new BigDecimal(2.0));
         mObj.setLastUpdate(System.currentTimeMillis());
-        mObj.setStatus(Mission.Status.CREATED);
         return mObj;
     }
 
