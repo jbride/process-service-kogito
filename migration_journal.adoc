@@ -62,7 +62,9 @@ ERROR [io.smallrye.reactive.messaging.provider] (vert.x-eventloop-thread-12) SRM
 
 . *24 November 2020*
 
-.. Kogito BPMN plugin for VSCode (v0.8.0) does not update underlying itemDefinition when Intermediate Message Catch Event is modified.  ie: 
+.. link:https://issues.redhat.com/browse/KOGITO-3932[KOGITO-3932]
++
+Kogito BPMN plugin for VSCode (v0.8.0) does not update underlying itemDefinition when Intermediate Message Catch Event is modified.  ie: 
 +
 -----
 <bpmn2:itemDefinition id="topic-responder-availability-verifiedType" structureRef="com.redhat.cajun.navy.process.message.model.ResponderUpdatedEvent"/>
@@ -281,5 +283,6 @@ image::images/incident-process.png[]
 - link:https://issues.redhat.com/browse/KOGITO-3681[KOGITO-3681]
 - link:https://issues.redhat.com/browse/KOGITO-3930[KOGITO-3930]
 - link:https://issues.redhat.com/browse/KOGITO-3931[KOGITO-3931]
+- link:https://issues.redhat.com/browse/KOGITO-3932[KOGITO-3932]
 
 
