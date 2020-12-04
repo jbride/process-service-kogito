@@ -31,12 +31,46 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
+. *4 Dec. 2020*
++
+Added the following to pom.xml :
++
+-----
+    <dependency>
+      <groupId>org.kie.kogito</groupId>
+      <artifactId>kogito-cloudevents-quarkus-addon</artifactId>
+    </dependency>
+-----
++
+So as to prevent exceptions similar to the following during compilation of generated source:
++
+-----
+[ERROR] 	Suppressed: javax.enterprise.inject.UnsatisfiedResolutionException: Unsatisfied dependency for type org.kie.kogito.services.event.CloudEventEmitter and qualifiers [@Default]
+[ERROR] 	- java member: com.redhat.cajun.navy.process.MissionLifecycleMessageProducer_11#emitter
+[ERROR] 	- declared on CLASS bean [types=[org.kie.kogito.services.event.impl.AbstractMessageProducer<com.redhat.cajun.navy.rules.model.Incident, com.redhat.cajun.navy.process.MissionLifecycleMessageDataEvent_11>, com.redhat.cajun.navy.process.MissionLifecycleMessageProducer_11, java.lang.Object], qualifiers=[@Default, @Any], target=com.redhat.cajun.navy.process.MissionLifecycleMessageProducer_11]
+[ERROR] 		at io.quarkus.arc.processor.Beans.resolveInjectionPoint(Beans.java:504)
+[ERROR] 		at io.quarkus.arc.processor.BeanInfo.init(BeanInfo.java:363)
+[ERROR] 		at io.quarkus.arc.processor.BeanDeployment.init(BeanDeployment.java:233)
+
+-----
+
+. *2 Dec. 2020*
+.. CloudEvents / Kogito references
++
+-----
+https://github.com/kiegroup/kogito-runtimes/pull/912/files
+https://github.com/kiegroup/kogito-runtimes/pull/807
+https://github.com/kiegroup/kogito-examples/pull/386/files
+https://github.com/evacchi/reactive-messaging-poc
+https://github.com/cloudevents/sdk-java
+-----
+
 . *25 November 2020*
 
 .. org.kie.kogito.event.impl.DataEventConsumer appears to only implement (as of 0.17.0) starting a new process instance
 ... Compare with org.kie.kogito.eventimpl.CloudEventConsumer, which implements both start and signalling of process instance
 
-.. The reason the DataEventConsumer is currently being used (by setting:  kogito.messaging.as-cloudevents=false) is because we are attempting to re-use existing payloads from brownfield app
+.. The reason the DataEventConsumer is currently being used (by setting:  kogito.messaging.as-cloudevents=false) is because we are attempting to re-use existing payloads from a brownfield app
 +
 For the purpose of this exercise, we could switch to cloud-events if needed
 

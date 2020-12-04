@@ -8,8 +8,8 @@
   <description>Generated project process-service-kogito</description>
 
   <properties>
-    <quarkus.version>1.8.0.Final</quarkus.version>
-    <kogito.version>0.17.0</kogito.version>
+    <quarkus.version>1.10.0.Final</quarkus.version>
+    <kogito.version>1.0.0.Final</kogito.version>
     <surefire.version>2.22.2</surefire.version>
     <compiler.version>3.8.1</compiler.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -58,6 +58,10 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.kogito</groupId>
+      <artifactId>kogito-cloudevents-quarkus-addon</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
