@@ -31,6 +31,27 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
+. *15 Dec. 2020*
+.. Encountered the following error upon testing:
++
+-----
+$ mvn clean test -e
+
+...
+
+java.lang.RuntimeException: java.lang.RuntimeException: Failed to start quarkus
+Caused by: java.lang.RuntimeException: Failed to start quarkus
+Caused by: java.lang.RuntimeException: Error injecting io.smallrye.mutiny.Multi<org.eclipse.microprofile.reactive.messaging.Message<java.lang.String>> org.kie.kogito.addon.cloudevents.quarkus.QuarkusCloudEventPublisher.events
+Caused by: java.lang.IllegalStateException: SRMSG00018: Unable to find a stream with the name kogito_incoming_stream, available streams are: [kogito_outgoing_stream, i-mission-event-pickedup, i-mission-event-started, i-responder-availability-verified, i-mission-event-droppedoff, i-mission-event-aborted, i-incident-event-created, i-mission-event-created]
+-----
+
+... Even with the '-e' flag, stacktrace doesn't pin-point the exact line of code throwing the root exception.
+... The app does not make use of a microprofile stream called: _kogito_incoming_stream_.  It's not clear which task in the BPMN is the cause of the problem.
+
+... Recommendation pertaining to:  link:https://github.com/kiegroup/kogito-runtimes/blob/master/addons/cloudevents/cloudevents-quarkus-addon/src/main/java/org/kie/kogito/addon/cloudevents/quarkus/QuarkusTopicDiscovery.java#L63-L74[QuarkusTopicDiscovery.extractChannelName( ... )]
+.... Instead of attempting to use KogitoEventStreams.INCOMING when the exact microprofile stream config doesn't exist, it might be better that a RuntimeException be thrown that highlights the missing config in application.properties.
+.... Otherwise, if KogitoEventStreams.INCOMING is to be used, a WARN level message should be logged explaining the problem and the use of KogitoEventStreams.INCOMING as the default.
+
 . *4 Dec. 2020*
 +
 Added the following to pom.xml :

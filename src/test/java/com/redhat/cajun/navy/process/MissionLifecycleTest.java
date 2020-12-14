@@ -1,10 +1,13 @@
 package com.redhat.cajun.navy.process;
 
 import java.math.BigDecimal;
+import java.net.URI;
+import java.time.OffsetDateTime;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -19,7 +22,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-//import io.cloudevents.v03.CloudEventBuilder;
+import io.cloudevents.core.builder.CloudEventBuilder;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 
@@ -28,7 +31,7 @@ import com.redhat.cajun.navy.rules.model.Incident;
 import com.redhat.cajun.navy.rules.model.Status;
 
 @QuarkusTest
-//@QuarkusTestResource(KafkaQuarkusTestResource.class)
+@QuarkusTestResource(KafkaQuarkusTestResource.class)
 public class MissionLifecycleTest {
 
     private static final String  TOPIC_MISSION_EVENT = "topic-mission-event";
@@ -56,17 +59,18 @@ public class MissionLifecycleTest {
         // https://github.com/kiegroup/kogito-apps/blob/master/data-index/data-index-service/data-index-service-common/src/test/java/org/kie/kogito/index/messaging/AbstractReactiveMessagingEventConsumerKafkaIT.java
         // https://smallrye.io/smallrye-reactive-messaging/smallrye-reactive-messaging/2.4/model/model.html#skipping
 
-        kafkaClient.consume(TOPIC_INCIDENT_COMMAND, s -> {
+        // Send initial mission event to business process and consume Incident with status of:  Assigned
+        kafkaClient.consume(TOPIC_INCIDENT_COMMAND, iString -> {
             try {
-                Incident iObj = objectMapper.readValue(s, Incident.class);
+                Incident iObj = objectMapper.readValue(iString, Incident.class);
                 log.infov("Received incident with status: {0}", iObj.getStatus());
                 assertEquals(iObj.getStatus(), Status.ASSIGNED.name());
             } catch (JsonProcessingException e) {
-                log.error("Error parsing {}", s, e);
+                log.error("Error parsing {}", iString, e);
                 throw new RuntimeException(e);
             }
         });
-        sendEvent(missionObj, Status.UNASSIGNED, TOPIC_MISSION_EVENT);
+        sendMissionEvent(missionObj, Status.UNASSIGNED, TOPIC_MISSION_EVENT);
 
 /*
         kafkaClient.consume(I_MISSION_STARTED_TOPIC_CHANNEL, s -> {
@@ -107,9 +111,9 @@ public class MissionLifecycleTest {
 */
     }
     
-    private void sendEvent(Mission missionObj, Status mStatus, String topic) throws JsonProcessingException, InterruptedException {
+    private void sendMissionEvent(Mission missionObj, Status mStatus, String topic) throws JsonProcessingException, InterruptedException {
         missionObj.setStatus(mStatus);
-        String mJson = generateEvent(missionObj);
+        String mJson = generateMissionEvent(missionObj);
         kafkaClient.produce(mJson, topic);
         log.infov("Sent event to topic: {0}", topic);
         Thread.sleep(sleepBetweenStateChanges);
@@ -129,8 +133,15 @@ public class MissionLifecycleTest {
         return mObj;
     }
 
-    private String generateEvent(Mission mObj) throws JsonProcessingException {
-      return objectMapper.writeValueAsString(mObj);
+    private String generateMissionEvent(Mission mObj) throws JsonProcessingException {
+      
+      return objectMapper.writeValueAsString(CloudEventBuilder.v1()
+                    .withId(UUID.randomUUID().toString())
+                    .withSource(URI.create(""))
+                    .withType("Mission")
+                    .withTime(OffsetDateTime.now())
+                    .withData(objectMapper.writeValueAsString(mObj).getBytes())
+                    .build());
     }
 
     @After
