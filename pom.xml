@@ -9,7 +9,7 @@
 
   <properties>
     <quarkus.version>1.10.0.Final</quarkus.version>
-    <kogito.version>1.0.0.Final</kogito.version>
+    <kogito.version>1.1.0.Final</kogito.version>
     <surefire.version>2.22.2</surefire.version>
     <compiler.version>3.8.1</compiler.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -115,6 +115,11 @@
             <quarkus.log.level>INFO</quarkus.log.level>  
             <maven.home>${maven.home}</maven.home>
           </systemPropertyVariables>
+          <environmentVariables>
+            <DOCKER_HOST>tcp://localhost:8880</DOCKER_HOST>
+            <TESTCONTAINERS_RYUK_DISABLED>false</TESTCONTAINERS_RYUK_DISABLED>
+            <api.version>v2</api.version>
+          </environmentVariables>
         </configuration>
       </plugin>
       <plugin>

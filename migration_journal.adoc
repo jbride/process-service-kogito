@@ -31,6 +31,57 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
+. *19 Jan 2021*
+.. Upgraded to kogito 1.1.0.Final and tested with TestContainers invoking podman (rather than docker)
+... Started podman service
++
+-----
+$ podman system service -t 0 tcp:localhost:8880 &
+-----
+... Set the following env vars in surefire-plugin in pom.xml
++
+-----
+          <environmentVariables>
+            <DOCKER_HOST>tcp://localhost:8880</DOCKER_HOST>
+            <TESTCONTAINERS_RYUK_DISABLED>false</TESTCONTAINERS_RYUK_DISABLED>
+            <api.version>v2</api.version>
+          </environmentVariables>
+-----
+... Expectations:
++
+The following container images should be pulled by podman:
++
+-----
+confluentinc/cp-kafka         5.4.3               c96219294d0f        3 months ago        667MB
+testcontainers/ryuk           0.3.0               03cb4444a82d        7 months ago        12MB
+-----
+
+... Results:
+.... Exception:
++
+-----
+Caused by: java.lang.RuntimeException: Unable to start Quarkus test resource org.kie.kogito.testcontainers.quarkus.KafkaQuarkusTestResource@4730e0f0
+Caused by: com.github.dockerjava.api.exception.DockerClientException: Could not pull image:
+-----
+
+.... both container images were successfully pulled (eventually):
++
+-----
+$ podman images | grep 'testcontainers\|confluent'
+
+docker.io/confluentinc/cp-kafka                         5.4.3               c96219294d0f  3 months ago   682 MB
+docker.io/testcontainers/ryuk                           0.3.0               03cb4444a82d  7 months ago   12.5 MB
+-----
+
+.... podman related logs during (and well after) test execution:
++
+-----
+Jan 19 09:52:15 p50 podman[441122]: 2021-01-19 09:52:15.189453364 -0700 MST m=+753.855911220 image pull  
+Jan 19 09:52:53 p50 systemd[2291]: libpod-conmon-c5728d83c3cc1c16ab7c167b406b088097018c53fde98e9fa4a079cae0e3a23b.scope: Succeeded.
+-----
+
+
+
 . *15 Dec. 2020*
 .. Encountered the following error upon testing:
 +
