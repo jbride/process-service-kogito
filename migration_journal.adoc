@@ -31,6 +31,12 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
+. 24 Jan 2021
+.. Created link:https://issues.redhat.com/browse/KOGITO-4249[KOGITO-4249]
+.. On Entry Action for a embedded sub-process does not seem to execute.
++
+In particular, the java code snippet is not being included in the auto-generated kogito class.
+
 . *19 Jan 2021*
 .. Upgraded to kogito 1.1.0.Final and tested with TestContainers invoking podman (rather than docker)
 ... Started podman service
@@ -94,9 +100,7 @@ Jan 19 09:52:53 p50 systemd[2291]: libpod-conmon-c5728d83c3cc1c16ab7c167b406b088
 
 .. CloudEventClass.getSimpleName()
 +
------
-https://github.com/kiegroup/kogito-examples/blob/stable/process-kafka-quickstart-quarkus/src/test/java/org/acme/travel/MessagingIT.java#L105
------
+link:https://github.com/kiegroup/kogito-examples/blob/stable/process-kafka-quickstart-quarkus/src/test/java/org/acme/travel/MessagingIT.java#L105[MessagingIT.java#L105]
 
 . *15 Dec. 2020*
 .. Encountered the following error upon testing:
@@ -398,8 +402,17 @@ image::images/incident-process.png[]
 ... link:https://issues.redhat.com/browse/KOGITO-3353[KOGITO-3353]
 ... processId renamed from _incident-process_ to the following to allow Kogito to generate Java classes using this processId :   _incidentLifecycle_.
 
+== Misc Helper Commands
+
+. Run MessagingIT test from command line:
++
+-----
+mvn clean test -Dtest=org.acme.travel.MessagingIT#testProcess
+-----
+
 == Kogito related issues and enhancements
 
+- link:https://issues.redhat.com/browse/KOGITO-4213[KOGITO-4213]
 - link:https://issues.redhat.com/browse/KOGITO-3161[KOGITO-3161]
 - link:https://issues.redhat.com/browse/KOGITO-3353[KOGITO-3353]
 - link:https://issues.redhat.com/browse/KOGITO-3681[KOGITO-3681]
@@ -408,3 +421,25 @@ image::images/incident-process.png[]
 - link:https://issues.redhat.com/browse/KOGITO-3932[KOGITO-3932]
 
 
+== Errors
+-----
+WARN  [org.kie.kogito.event.impl.CloudEventConsumer] (vert.x-eventloop-thread-0) Consumer for CloudEvent type 'MissionLifecycleMessageDataEvent_1', trigger 'kogito_incoming_stream': ignoring payload '{"data":"eyJpbmNpZGVudElkIjoiaW5jaWRlbnQxIiwicmVzcG9uZGVySWQiOiJyZXNwb25kZXIxIiwic3RhdHVzIjoiVU5BU1NJR05FRCIsInJlc3BvbmRlclN0YXJ0TGF0IjoyLCJyZXNwb25kZXJTdGFydExvbmciOjIsImluY2lkZW50TGF0IjowLCJpbmNpZGVudExvbmciOjAsImRlc3RpbmF0aW9uTGF0IjoxLCJkZXN0aW5hdGlvbkxvbmciOjEsImxhc3RVcGRhdGUiOjE2MTExNzU2NjI3Njd9","id":"cce02690-244e-4f42-9993-a90717bf1226","source":"","type":"com.redhat.cajun.navy.rules.model.Mission","subject":null,"time":1611175662.858673000,"dataSchema":null,"dataContentType":null,"specVersion":"V1","extensionNames":[],"attributeNames":["specversion","id","source","time","type"]}'
+com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot construct instance of `com.redhat.cajun.navy.rules.model.Mission` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('eyJpbmNpZGVudElkIjoiaW5jaWRlbnQxIiwicmVzcG9uZGVySWQiOiJyZXNwb25kZXIxIiwic3RhdHVzIjoiVU5BU1NJR05FRCIsInJlc3BvbmRlclN0YXJ0TGF0IjoyLCJyZXNwb25kZXJTdGFydExvbmciOjIsImluY2lkZW50TGF0IjowLCJpbmNpZGVudExvbmciOjAsImRlc3RpbmF0aW9uTGF0IjoxLCJkZXN0aW5hdGlvbkxvbmciOjEsImxhc3RVcGRhdGUiOjE2MTExNzU2NjI3Njd9')
+ at [Source: (String)"{"data":"eyJpbmNpZGVudElkIjoiaW5jaWRlbnQxIiwicmVzcG9uZGVySWQiOiJyZXNwb25kZXIxIiwic3RhdHVzIjoiVU5BU1NJR05FRCIsInJlc3BvbmRlclN0YXJ0TGF0IjoyLCJyZXNwb25kZXJTdGFydExvbmciOjIsImluY2lkZW50TGF0IjowLCJpbmNpZGVudExvbmciOjAsImRlc3RpbmF0aW9uTGF0IjoxLCJkZXN0aW5hdGlvbkxvbmciOjEsImxhc3RVcGRhdGUiOjE2MTExNzU2NjI3Njd9","id":"cce02690-244e-4f42-9993-a90717bf1226","source":"","type":"com.redhat.cajun.navy.rules.model.Mission","subject":null,"time":1611175662.858673000,"dataSchema":null,"dataContentType":null,"specV"[truncated 94 chars]; line: 1, column: 9] (through reference chain: com.redhat.cajun.navy.process.MissionLifecycleMessageDataEvent_1["data"])
+	at com.fasterxml.jackson.databind.exc.MismatchedInputException.from(MismatchedInputException.java:63)
+	at com.fasterxml.jackson.databind.DeserializationContext.reportInputMismatch(DeserializationContext.java:1455)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleMissingInstantiator(DeserializationContext.java:1081)
+	at com.fasterxml.jackson.databind.deser.ValueInstantiator._createFromStringFallbacks(ValueInstantiator.java:371)
+	at com.fasterxml.jackson.databind.deser.std.StdValueInstantiator.createFromString(StdValueInstantiator.java:323)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeFromString(BeanDeserializerBase.java:1408)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeOther(BeanDeserializer.java:176)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:166)
+	at com.fasterxml.jackson.databind.deser.impl.FieldProperty.deserializeAndSet(FieldProperty.java:138)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:293)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:156)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4526)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3468)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3436)
+	at org.kie.kogito.event.impl.CloudEventConsumer.consume(CloudEventConsumer.java:51)
+	at org.kie.kogito.services.event.impl.AbstractMessageConsumer.consume(AbstractMessageConsumer.java:87)
+-----

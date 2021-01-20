@@ -15,7 +15,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>11</maven.compiler.release> 
     <version.cajun-navy-rules-model>1.1.0-SNAPSHOT</version.cajun-navy-rules-model>
-    <version.cloudevents.api>2.0.0-milestone3</version.cloudevents.api>
   </properties>
 
   <dependencyManagement>
@@ -74,8 +73,12 @@
     </dependency>
     <dependency>
        <groupId>io.cloudevents</groupId>
-       <artifactId>cloudevents-core</artifactId>
-       <version>${version.cloudevents.api}</version>
+       <artifactId>cloudevents-api</artifactId>
+       <scope>test</scope>
+    </dependency>
+    <dependency>
+       <groupId>io.cloudevents</groupId>
+       <artifactId>cloudevents-json-jackson</artifactId>
        <scope>test</scope>
     </dependency>
     <dependency>
@@ -115,11 +118,11 @@
             <quarkus.log.level>INFO</quarkus.log.level>  
             <maven.home>${maven.home}</maven.home>
           </systemPropertyVariables>
-          <environmentVariables>
+          <!--environmentVariables>
             <DOCKER_HOST>tcp://localhost:8880</DOCKER_HOST>
             <TESTCONTAINERS_RYUK_DISABLED>false</TESTCONTAINERS_RYUK_DISABLED>
             <api.version>v2</api.version>
-          </environmentVariables>
+          </environmentVariables -->
         </configuration>
       </plugin>
       <plugin>
