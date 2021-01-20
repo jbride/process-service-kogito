@@ -80,7 +80,23 @@ Jan 19 09:52:15 p50 podman[441122]: 2021-01-19 09:52:15.189453364 -0700 MST m=+7
 Jan 19 09:52:53 p50 systemd[2291]: libpod-conmon-c5728d83c3cc1c16ab7c167b406b088097018c53fde98e9fa4a079cae0e3a23b.scope: Succeeded.
 -----
 
+.. Buried JsonProcessingException
+... https://github.com/kiegroup/kogito-runtimes/blob/1.1.0.Final/jbpm/jbpm-flow/src/main/java/org/kie/kogito/event/impl/CloudEventConsumer.java#L89-L94
+... Recommendation :
+.... Change log level to error
+.... In addition to logging error, throw a RuntimeException
+... Root Issue:
++
+-----
+"com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot construct instance of `com.redhat.cajun.navy.rules.model.Mission` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('eyJpbmNpZGVudElkIjoiaW5jaWRlbnQxIiwicmVzcG9uZGVySWQiOiJyZXNwb25kZXIxIiwic3RhdHVzIjoiVU5BU1NJR05FRCIsInJlc3BvbmRlclN0YXJ0TGF0IjoyLCJyZXNwb25kZXJTdGFydExvbmciOjIsImluY2lkZW50TGF0IjowLCJpbmNpZGVudExvbmciOjAsImRlc3RpbmF0aW9uTGF0IjoxLCJkZXN0aW5hdGlvbkxvbmciOjEsImxhc3RVcGRhdGUiOjE2MTEwOTUwMzI5NTV9')
+>  at [Source: (String)"{"data":"eyJpbmNpZGVudElkIjoiaW5jaWRlbnQxIiwicmVzcG9uZGVySWQiOiJyZXNwb25kZXIxIiwic3RhdHVzIjoiVU5BU1NJR05FRCIsInJlc3BvbmRlclN0YXJ0TGF0IjoyLCJyZXNwb25kZXJTdGFydExvbmciOjIsImluY2lkZW50TGF0IjowLCJpbmNpZGVudExvbmciOjAsImRlc3RpbmF0aW9uTGF0IjoxLCJkZXN0aW5hdGlvbkxvbmciOjEsImxhc3RVcGRhdGUiOjE2MTEwOTUwMzI5NTV9","id":"5a753ac2-06fc-4343-8514-29e866e14e62","source":"","type":"Mission","subject":null,"time":1611095032.987476000,"dataContentType":null,"dataSchema":null,"specVersion":"V1","extensionNames":[],""[truncated 60 chars]; line: 1, column: 9] (through reference chain: com.redhat.cajun.navy.process.MissionLifecycleMessageDataEvent_18["data"])"
+-----
 
+.. CloudEventClass.getSimpleName()
++
+-----
+https://github.com/kiegroup/kogito-examples/blob/stable/process-kafka-quickstart-quarkus/src/test/java/org/acme/travel/MessagingIT.java#L105
+-----
 
 . *15 Dec. 2020*
 .. Encountered the following error upon testing:

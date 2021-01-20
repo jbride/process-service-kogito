@@ -1,4 +1,4 @@
-<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" id="_erx-0Dy4EDmrhr9WNggcsA" exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
+<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" id="_pA0twDy9EDmrhr9WNggcsA" exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
   <bpmn2:itemDefinition id="_incidentItem" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
   <bpmn2:itemDefinition id="_destinationsItem" structureRef="com.redhat.cajun.navy.rules.model.Destinations"/>
   <bpmn2:itemDefinition id="_missionItem" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
@@ -25,15 +25,15 @@
   <bpmn2:itemDefinition id="kogito_outgoing_streamType" structureRef="com.redhat.cajun.navy.rules.model.Incident"/>
   <bpmn2:itemDefinition id="__0C3DF3FF-DD24-4680-9D7B-7C3EA6EBA3BD_PayloadOutputXItem" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
   <bpmn2:itemDefinition id="kogito_incoming_streamType" structureRef="com.redhat.cajun.navy.rules.model.Mission"/>
-  <bpmn2:message id="_er4sgDy4EDmrhr9WNggcsA" itemRef="kogito_incoming_streamType" name="kogito_incoming_stream"/>
-  <bpmn2:message id="_er5TkDy4EDmrhr9WNggcsA" itemRef="kogito_incoming_streamType" name="kogito_incoming_stream"/>
-  <bpmn2:message id="_er56oDy4EDmrhr9WNggcsA" itemRef="kogito_incoming_streamType" name="kogito_incoming_stream"/>
-  <bpmn2:message id="_er56oTy4EDmrhr9WNggcsA" itemRef="kogito_outgoing_streamType" name="kogito_outgoing_stream"/>
-  <bpmn2:message id="_er6hsDy4EDmrhr9WNggcsA" itemRef="kogito_outgoing_streamType" name="kogito_outgoing_stream"/>
-  <bpmn2:message id="_er7IwDy4EDmrhr9WNggcsA" itemRef="kogito_outgoing_streamType" name="kogito_outgoing_stream"/>
-  <bpmn2:message id="_er7IwTy4EDmrhr9WNggcsA" itemRef="kogito_incoming_streamType" name="kogito_incoming_stream"/>
-  <bpmn2:message id="_er7Iwjy4EDmrhr9WNggcsA" itemRef="kogito_outgoing_streamType" name="kogito_outgoing_stream"/>
-  <bpmn2:message id="_er7Iwzy4EDmrhr9WNggcsA" itemRef="kogito_incoming_streamType" name="kogito_incoming_stream"/>
+  <bpmn2:message id="_pA5mQDy9EDmrhr9WNggcsA" itemRef="kogito_incoming_streamType" name="kogito_incoming_stream"/>
+  <bpmn2:message id="_pA6NUDy9EDmrhr9WNggcsA" itemRef="kogito_incoming_streamType" name="kogito_incoming_stream"/>
+  <bpmn2:message id="_pA60YDy9EDmrhr9WNggcsA" itemRef="kogito_incoming_streamType" name="kogito_incoming_stream"/>
+  <bpmn2:message id="_pA7bcDy9EDmrhr9WNggcsA" itemRef="kogito_outgoing_streamType" name="kogito_outgoing_stream"/>
+  <bpmn2:message id="_pA7bcTy9EDmrhr9WNggcsA" itemRef="kogito_outgoing_streamType" name="kogito_outgoing_stream"/>
+  <bpmn2:message id="_pA7bcjy9EDmrhr9WNggcsA" itemRef="kogito_outgoing_streamType" name="kogito_outgoing_stream"/>
+  <bpmn2:message id="_pA8CgDy9EDmrhr9WNggcsA" itemRef="kogito_incoming_streamType" name="kogito_incoming_stream"/>
+  <bpmn2:message id="_pA8CgTy9EDmrhr9WNggcsA" itemRef="kogito_outgoing_streamType" name="kogito_outgoing_stream"/>
+  <bpmn2:message id="_pA8Cgjy9EDmrhr9WNggcsA" itemRef="kogito_incoming_streamType" name="kogito_incoming_stream"/>
   <bpmn2:process id="missionLifecycle" drools:packageName="com.redhat.cajun.navy.process" drools:version="1.0" drools:adHoc="false" name="missionLifecycle" isExecutable="true" processType="Public">
     <bpmn2:property id="incident" itemSubjectRef="_incidentItem" name="incident"/>
     <bpmn2:property id="destinations" itemSubjectRef="_destinationsItem" name="destinations"/>
@@ -88,7 +88,7 @@
       <bpmn2:outputSet>
         <bpmn2:dataOutputRefs>_0C3DF3FF-DD24-4680-9D7B-7C3EA6EBA3BD_PayloadOutputX</bpmn2:dataOutputRefs>
       </bpmn2:outputSet>
-      <bpmn2:messageEventDefinition drools:msgref="kogito_incoming_stream" messageRef="_er7Iwzy4EDmrhr9WNggcsA"/>
+      <bpmn2:messageEventDefinition drools:msgref="kogito_incoming_stream" messageRef="_pA8Cgjy9EDmrhr9WNggcsA"/>
     </bpmn2:startEvent>
     <bpmn2:intermediateThrowEvent id="_EA53F7CF-B973-448F-BC27-9C98B4F9E1B9" name="Update Incident&#10;Aborted">
       <bpmn2:extensionElements>
@@ -107,7 +107,7 @@ Aborted]]></drools:metaValue>
       <bpmn2:inputSet>
         <bpmn2:dataInputRefs>_EA53F7CF-B973-448F-BC27-9C98B4F9E1B9_PayloadInputX</bpmn2:dataInputRefs>
       </bpmn2:inputSet>
-      <bpmn2:messageEventDefinition drools:msgref="kogito_outgoing_stream" messageRef="_er7Iwjy4EDmrhr9WNggcsA"/>
+      <bpmn2:messageEventDefinition drools:msgref="kogito_outgoing_stream" messageRef="_pA8CgTy9EDmrhr9WNggcsA"/>
     </bpmn2:intermediateThrowEvent>
     <bpmn2:endEvent id="_F7B4AB91-88DB-4AB9-A5EF-860E41AEDE46">
       <bpmn2:incoming>_12A3BAD1-1EF7-4010-9BAC-545AF2D11488</bpmn2:incoming>
@@ -121,8 +121,8 @@ Aborted]]></drools:metaValue>
       </bpmn2:extensionElements>
       <bpmn2:incoming>_D26EE7DC-69BB-4B09-AFC9-A42EF83BB3A9</bpmn2:incoming>
       <bpmn2:outgoing>_DB45F25A-2AC2-4A63-B12D-FCE97C8B9B61</bpmn2:outgoing>
-      <bpmn2:script>System.out.println("Placeholder for Mission Aborted");
-incident.setStatus("Aborted");
+      <bpmn2:script>incident.setStatus("Aborted");
+System.out.println("mission-lifecycle: incident status = "+incident.getStatus());
 </bpmn2:script>
     </bpmn2:scriptTask>
     <bpmn2:endEvent id="_F8F5A0C6-3D90-4CAA-BBD5-5F1870166B1D">
@@ -225,7 +225,7 @@ Delivered]]></drools:metaValue>
         <bpmn2:inputSet>
           <bpmn2:dataInputRefs>_B3BABDDE-FB9A-43E4-805C-21DC498486D4_PayloadInputX</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
-        <bpmn2:messageEventDefinition drools:msgref="kogito_outgoing_stream" messageRef="_er7IwDy4EDmrhr9WNggcsA"/>
+        <bpmn2:messageEventDefinition drools:msgref="kogito_outgoing_stream" messageRef="_pA7bcjy9EDmrhr9WNggcsA"/>
       </bpmn2:intermediateThrowEvent>
       <bpmn2:intermediateThrowEvent id="_5D7F9C5D-483B-4309-AE6D-7044B3C000DF" name="Update Incident&#10;Picked Up">
         <bpmn2:extensionElements>
@@ -244,7 +244,7 @@ Picked Up]]></drools:metaValue>
         <bpmn2:inputSet>
           <bpmn2:dataInputRefs>_5D7F9C5D-483B-4309-AE6D-7044B3C000DF_PayloadInputX</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
-        <bpmn2:messageEventDefinition drools:msgref="kogito_outgoing_stream" messageRef="_er6hsDy4EDmrhr9WNggcsA"/>
+        <bpmn2:messageEventDefinition drools:msgref="kogito_outgoing_stream" messageRef="_pA7bcTy9EDmrhr9WNggcsA"/>
       </bpmn2:intermediateThrowEvent>
       <bpmn2:intermediateThrowEvent id="_209477EA-804F-477A-AAD0-75EF92342928" name="Update Incident&#10;Assigned">
         <bpmn2:extensionElements>
@@ -263,7 +263,7 @@ Assigned]]></drools:metaValue>
         <bpmn2:inputSet>
           <bpmn2:dataInputRefs>_209477EA-804F-477A-AAD0-75EF92342928_PayloadInputX</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
-        <bpmn2:messageEventDefinition drools:msgref="kogito_outgoing_stream" messageRef="_er56oTy4EDmrhr9WNggcsA"/>
+        <bpmn2:messageEventDefinition drools:msgref="kogito_outgoing_stream" messageRef="_pA7bcDy9EDmrhr9WNggcsA"/>
       </bpmn2:intermediateThrowEvent>
       <bpmn2:startEvent id="_E5D11F7E-2348-4089-8699-253E52D9ABFD">
         <bpmn2:outgoing>_0B5603AE-6CFB-4238-9D75-EE1263B3EE32</bpmn2:outgoing>
@@ -285,7 +285,7 @@ Started]]></drools:metaValue>
         <bpmn2:outputSet>
           <bpmn2:dataOutputRefs>_63433F1A-7F91-4CED-8723-8DE59C3A264A_PayloadOutputX</bpmn2:dataOutputRefs>
         </bpmn2:outputSet>
-        <bpmn2:messageEventDefinition drools:msgref="kogito_incoming_stream" messageRef="_er56oDy4EDmrhr9WNggcsA"/>
+        <bpmn2:messageEventDefinition drools:msgref="kogito_incoming_stream" messageRef="_pA60YDy9EDmrhr9WNggcsA"/>
       </bpmn2:intermediateCatchEvent>
       <bpmn2:intermediateCatchEvent id="_6DF42BBE-29BC-4CA0-800C-BD2FF5B30934" name="Evacuee&#10;Picked-up">
         <bpmn2:extensionElements>
@@ -304,7 +304,7 @@ Picked-up]]></drools:metaValue>
         <bpmn2:outputSet>
           <bpmn2:dataOutputRefs>_6DF42BBE-29BC-4CA0-800C-BD2FF5B30934_PayloadOutputX</bpmn2:dataOutputRefs>
         </bpmn2:outputSet>
-        <bpmn2:messageEventDefinition drools:msgref="kogito_incoming_stream" messageRef="_er5TkDy4EDmrhr9WNggcsA"/>
+        <bpmn2:messageEventDefinition drools:msgref="kogito_incoming_stream" messageRef="_pA6NUDy9EDmrhr9WNggcsA"/>
       </bpmn2:intermediateCatchEvent>
       <bpmn2:endEvent id="_2941BB73-A957-4613-9481-C83EB6F622B5">
         <bpmn2:incoming>_7D34E98D-C4E7-47D9-8287-D9C87A8DE92D</bpmn2:incoming>
@@ -326,7 +326,7 @@ Dropped-Off]]></drools:metaValue>
         <bpmn2:outputSet>
           <bpmn2:dataOutputRefs>_5EC39534-186B-494E-866C-B160C939D6C8_PayloadOutputX</bpmn2:dataOutputRefs>
         </bpmn2:outputSet>
-        <bpmn2:messageEventDefinition drools:msgref="kogito_incoming_stream" messageRef="_er4sgDy4EDmrhr9WNggcsA"/>
+        <bpmn2:messageEventDefinition drools:msgref="kogito_incoming_stream" messageRef="_pA5mQDy9EDmrhr9WNggcsA"/>
       </bpmn2:intermediateCatchEvent>
     </bpmn2:subProcess>
     <bpmn2:boundaryEvent id="_5179B8E1-A6DF-467D-97F1-8316690F663A" drools:boundaryca="true" drools:dockerinfo="750^197|" name="Mission&#10;Aborted" attachedToRef="_FDA7AF13-3132-4581-9F50-18D4BA54F3A4">
@@ -345,7 +345,7 @@ Aborted]]></drools:metaValue>
       <bpmn2:outputSet>
         <bpmn2:dataOutputRefs>_5179B8E1-A6DF-467D-97F1-8316690F663A_PayloadOutputX</bpmn2:dataOutputRefs>
       </bpmn2:outputSet>
-      <bpmn2:messageEventDefinition drools:msgref="kogito_incoming_stream" messageRef="_er7IwTy4EDmrhr9WNggcsA"/>
+      <bpmn2:messageEventDefinition drools:msgref="kogito_incoming_stream" messageRef="_pA8CgDy9EDmrhr9WNggcsA"/>
     </bpmn2:boundaryEvent>
   </bpmn2:process>
   <bpmndi:BPMNDiagram>
@@ -495,7 +495,7 @@ Aborted]]></drools:metaValue>
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </bpmn2:extensionElements>
-    <bpmn2:source>_erx-0Dy4EDmrhr9WNggcsA</bpmn2:source>
-    <bpmn2:target>_erx-0Dy4EDmrhr9WNggcsA</bpmn2:target>
+    <bpmn2:source>_pA0twDy9EDmrhr9WNggcsA</bpmn2:source>
+    <bpmn2:target>_pA0twDy9EDmrhr9WNggcsA</bpmn2:target>
   </bpmn2:relationship>
 </bpmn2:definitions>
