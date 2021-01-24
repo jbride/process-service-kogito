@@ -193,7 +193,7 @@ public class MissionLifecycleTest {
         CloudEvent cloudEvent = CloudEventBuilder.v1()
             .withId(UUID.randomUUID().toString())
             .withSource(URI.create(""))
-            .withType("MissionLifecycleMessageDataEvent_1") // example: TravelersMessageDataEvent_3
+            .withType("topic-mission-event") // evaluated as "trigger" by org.kie.kogito.event.impl.CloudEventConsumer; correspondes to "message" in intermediate message events
             .withTime(OffsetDateTime.now())
             .withData(jsonMission.getBytes())
             .build();
