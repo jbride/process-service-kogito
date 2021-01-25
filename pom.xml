@@ -96,6 +96,7 @@
       <artifactId>kogito-test-utils</artifactId>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 
   <build>

@@ -31,6 +31,9 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
+. 3 February 2021
+.. TO-DO:  research how to enable debug logging for: org.kie.kogito.event.impl.CloudEventConsumer    (which uses slf4j and not org.jboss.logmanager.LogManager)
+
 . 24 Jan 2021
 .. Created link:https://issues.redhat.com/browse/KOGITO-4249[KOGITO-4249]
 .. On Entry Action for a embedded sub-process does not seem to execute.

@@ -44,11 +44,26 @@ import com.redhat.cajun.navy.rules.model.Status;
 @QuarkusTestResource(KafkaQuarkusTestResource.class)
 public class MissionLifecycleTest {
 
+    private static final String DATA = "data";
+    private static final String KOGITO_PROCESS_INSTANCE_ID = "kogitoProcessinstanceId";
+    private static final String KOGITO_PROCESS_ID = "kogitoProcessId";
+    private static final String KOGITO_PROCESS_INSTANCE_STATE = "kogitoProcessinstanceState";
+
     private static final String TOPIC_MISSION_EVENT = "topic-mission-event";
     private static final String TOPIC_INCIDENT_COMMAND = "topic-incident-command";
-    private static final String DATA = "data";
+    private static final String MISSION_CREATED = "mission-created";
+    private static final String EVACUEE_PICKED_UP = "evacuee-picked-up";
+    private static final String EVACUEE_DROPPED_OFF = "evacuee-dropped-off";
+    private static final String MISSION_ABORTED = "mission-aborted";
+    private static final String INCIDENT_ASSIGNED = "INCIDENT_ASSIGNED";
+    private static final String INCIDENT_PICKEDUP = "INCIDENT_PICKEDUP";
+    private static final String INCIDENT_DROPPED = "INCIDENT_DROPPED";
 
     private static Logger log = Logger.getLogger(MissionLifecycleTest.class);
+
+    private static String kogitoProcessInstanceId="";
+
+    private String expectedIncidentStatus=INCIDENT_ASSIGNED;
     
     @Inject
     private ObjectMapper objectMapper;
@@ -58,7 +73,7 @@ public class MissionLifecycleTest {
     @ConfigProperty(name = KafkaQuarkusTestResource.KOGITO_KAFKA_PROPERTY)
     private String kafkaBootstrapServers;
 
-    private long sleepBetweenStateChanges=30000;
+    private long sleepBetweenStateChanges=20000;
 
     @BeforeEach
     public void setup() {
@@ -101,7 +116,7 @@ public class MissionLifecycleTest {
     public void testCloudEventMarshalling() throws IOException {
         try {
             Mission missionObj = createMission();
-            String cloudEventJson = generateCloudEventJson(missionObj);
+            String cloudEventJson = generateCloudEventJson(missionObj, MISSION_CREATED);
             log.info("testCloudEventSerialization() mEventJson = "+cloudEventJson); 
     
             MissionLifecycleMessageDataEvent cloudEventObj = objectMapper.readValue(cloudEventJson, MissionLifecycleMessageDataEvent.class);
@@ -113,8 +128,7 @@ public class MissionLifecycleTest {
     }
 
     @Test
-    public void testProcess() throws InterruptedException, JsonProcessingException {
-        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+    public void testMissionProcess() throws InterruptedException, JsonProcessingException {
         kafkaClient = new KafkaClient(kafkaBootstrapServers);
         Mission missionObj = createMission();
 
@@ -122,55 +136,33 @@ public class MissionLifecycleTest {
         kafkaClient.consume(TOPIC_INCIDENT_COMMAND, iJson -> {
             try {
                 JsonNode event = objectMapper.readValue(iJson, JsonNode.class);
+
+                /*
+                   sample json response:
+                       {"id":"11a50afe-8a58-4a0e-8226-4de71a0f744c","source":"/process/missionLifecycle","type":"topic-incident-command","time":"2021-02-03T11:22:02.426166-05:00","data":{"id":null,"latitude":null,"longitude":null,"numPeople":null,"medicalNeeded":null,"reportedTime":null,"status":"INCIDENT_ASSIGNED","reporterId":null},"kogitoProcessinstanceId":"be7a9472-d84b-4f74-bf99-9fbbb6240223","kogitoProcessId":"missionLifecycle","kogitoProcessinstanceState":"1","specversion":"1.0"}
+
+		String json = objectMapper.writeValueAsString(event);
+		log.infov("Received json = {0}", json);
+                 */
+
+                kogitoProcessInstanceId = event.get(KOGITO_PROCESS_INSTANCE_ID).asText();
                 Incident iObj = objectMapper.readValue(event.get(DATA).toString(), Incident.class);
-                log.infov("Received incident with status: {0}", iObj.getStatus());
-                assertEquals(iObj.getStatus(), Status.ASSIGNED.name());
+                log.infov("Received incident. pInstanceId: {0}, status: {1}", kogitoProcessInstanceId, iObj.getStatus());
+                assertEquals(iObj.getStatus(), expectedIncidentStatus);
             } catch (Throwable e) {
                 log.error("Error parsing {}", iJson, e);
                 throw new RuntimeException(e);
             }
         });
-        sendCloudEvent(missionObj, Status.UNASSIGNED, TOPIC_MISSION_EVENT);
+        expectedIncidentStatus=INCIDENT_ASSIGNED;
+        sendCloudEvent(missionObj, Status.UNASSIGNED, TOPIC_MISSION_EVENT, MISSION_CREATED);
 
-/*
-        kafkaClient.consume(I_MISSION_STARTED_TOPIC_CHANNEL, s -> {
-            try {
-                Mission mObj = objectMapper.readValue(s, Mission.class);
-                log.info("Received mission with status: {0}", mObj.getStatus().name());
-                assertEquals(mObj.getStatus().name(), Status.STARTED.name());
-            } catch (JsonProcessingException e) {
-                log.error("Error parsing {}", s, e);
-                throw new RuntimeException(e);
-            }
-        });
-        sendEvent(missionObj, Mission.Status.STARTED, O_INCIDENT_COMMAND_ASSIGNED);
+        expectedIncidentStatus=INCIDENT_PICKEDUP;
+        sendCloudEvent(missionObj, Status.REQUESTED, TOPIC_MISSION_EVENT, EVACUEE_PICKED_UP);
 
-        kafkaClient.consume(I_MISSION_PICKEDUP_TOPIC_CHANNEL, s -> {
-            try {
-                Mission mObj = objectMapper.readValue(s, Mission.class);
-                log.info("Received mission with status: {0}", mObj.getStatus().name());
-                assertEquals(mObj.getStatus().name(), Status.PICKEDUP.name());
-            } catch (JsonProcessingException e) {
-                log.error("Error parsing {}", s, e);
-                throw new RuntimeException(e);
-            }
-        });
-        sendEvent(missionObj, Mission.Status.PICKEDUP, O_INCIDENT_COMMAND_PICKEDUP);
-
-        kafkaClient.consume(I_MISSION_DROPPEDOFF_TOPIC_CHANNEL, s -> {
-            try {
-                Mission mObj = objectMapper.readValue(s, Mission.class);
-                log.info("Received mission with status: {0}", mObj.getStatus().name());
-                assertEquals(mObj.getStatus().name(), Status.DROPPED.name());
-            } catch (JsonProcessingException e) {
-                log.error("Error parsing {}", s, e);
-                throw new RuntimeException(e);
-            }
-        });
-        sendEvent(missionObj, Mission.Status.DROPPED, O_INCIDENT_COMMAND_DELIVERED);
-*/
+        expectedIncidentStatus=INCIDENT_DROPPED;
+        sendCloudEvent(missionObj, Status.REQUESTED, TOPIC_MISSION_EVENT, EVACUEE_DROPPED_OFF);
     }
-
 
     private Mission createMission() {
         Mission mObj = new Mission();
@@ -186,27 +178,31 @@ public class MissionLifecycleTest {
         return mObj;
     }
 
-    private String generateCloudEventJson(Mission mObj) throws JsonProcessingException {
+    private String generateCloudEventJson(Mission mObj, String messageTrigger) throws JsonProcessingException {
 
         String jsonMission = objectMapper.writeValueAsString(mObj);
 
         CloudEvent cloudEvent = CloudEventBuilder.v1()
             .withId(UUID.randomUUID().toString())
             .withSource(URI.create(""))
-            .withType("topic-mission-event") // evaluated as "trigger" by org.kie.kogito.event.impl.CloudEventConsumer; correspondes to "message" in intermediate message events
+            .withType(messageTrigger) // evaluated as "trigger" by org.kie.kogito.event.impl.CloudEventConsumer; correspondes to "message" in intermediate message events
             .withTime(OffsetDateTime.now())
             .withData(jsonMission.getBytes())
+            .withExtension("kogitoReferenceId", kogitoProcessInstanceId)
             .build();
-        log.info("generateMissionEvent() cloudEvent = "+cloudEvent.getClass().toString());
+        //log.info("generateMissionEvent() cloudEvent = "+cloudEvent.getClass().toString());
       
         return objectMapper.writeValueAsString(cloudEvent);
     }
     
-    private void sendCloudEvent(Mission missionObj, Status mStatus, String topic) throws JsonProcessingException, InterruptedException {
+    private void sendCloudEvent(Mission missionObj, Status mStatus, String topic, String messageTrigger) throws JsonProcessingException, InterruptedException {
+
+        // TO-DO: For purpose of current smoke test, this mission status is not evaluated in business process
         missionObj.setStatus(mStatus);
-        String mJson = generateCloudEventJson(missionObj);
+
+        String mJson = generateCloudEventJson(missionObj, messageTrigger);
         kafkaClient.produce(mJson, topic);
-        log.infov("Sent event to topic: {0}", topic);
+        log.infov("Sent event w/ pInstanceId: {0}, messageTrigger: {1} to topic: {2}", kogitoProcessInstanceId, messageTrigger, topic);
         Thread.sleep(sleepBetweenStateChanges);
     }
 
