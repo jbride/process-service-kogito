@@ -34,6 +34,10 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 . 3 February 2021
 .. TO-DO:  research how to enable debug logging for: org.kie.kogito.event.impl.CloudEventConsumer    (which uses slf4j and not org.jboss.logmanager.LogManager)
 
+.. Documentation:  It would be nice to better document the following :
+... use of   link:https://github.com/cloudevents/sdk-java/blob/master/core/src/main/java/io/cloudevents/core/builder/CloudEventBuilder.java#L151[io.cloudevents.core.builder.CloudEventBuilder.v1.useExtension( ... )] to add kogito specific elements to a CloudEvent sent to Kogito
+... Kogito specific CloudEvent extension keys (as per:  link:https://github.com/kiegroup/kogito-runtimes/blob/master/api/kogito-services/src/main/java/org/kie/kogito/services/event/AbstractProcessDataEvent.java#L23-L30[AbstractProcessDataEvent])
+
 . 24 Jan 2021
 .. Created link:https://issues.redhat.com/browse/KOGITO-4249[KOGITO-4249]
 .. On Entry Action for a embedded sub-process does not seem to execute.
@@ -415,6 +419,7 @@ mvn clean test -Dtest=org.acme.travel.MessagingIT#testProcess
 
 == Kogito related issues and enhancements
 
+- link:https://issues.redhat.com/browse/KOGITO-4249[KOGITO-4249]
 - link:https://issues.redhat.com/browse/KOGITO-4213[KOGITO-4213]
 - link:https://issues.redhat.com/browse/KOGITO-3161[KOGITO-3161]
 - link:https://issues.redhat.com/browse/KOGITO-3353[KOGITO-3353]
