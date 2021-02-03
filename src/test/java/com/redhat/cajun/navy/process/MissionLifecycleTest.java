@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.inject.Inject;
 
@@ -63,6 +64,8 @@ public class MissionLifecycleTest {
 
     private static String kogitoProcessInstanceId="";
 
+    private static boolean proceed = false;
+
     private String expectedIncidentStatus=INCIDENT_ASSIGNED;
     
     @Inject
@@ -73,7 +76,7 @@ public class MissionLifecycleTest {
     @ConfigProperty(name = KafkaQuarkusTestResource.KOGITO_KAFKA_PROPERTY)
     private String kafkaBootstrapServers;
 
-    private long sleepBetweenStateChanges=20000;
+    private long sleepBetweenLockChecks=2000;
 
     @BeforeEach
     public void setup() {
@@ -152,10 +155,12 @@ public class MissionLifecycleTest {
             } catch (Throwable e) {
                 log.error("Error parsing {}", iJson, e);
                 throw new RuntimeException(e);
+            }finally {
+                proceed = true;
             }
         });
         expectedIncidentStatus=INCIDENT_ASSIGNED;
-        sendCloudEvent(missionObj, Status.UNASSIGNED, TOPIC_MISSION_EVENT, MISSION_CREATED);
+        sendCloudEvent(missionObj, Status.UNASSIGNED, TOPIC_MISSION_EVENT, MISSION_CREATED );
 
         expectedIncidentStatus=INCIDENT_PICKEDUP;
         sendCloudEvent(missionObj, Status.REQUESTED, TOPIC_MISSION_EVENT, EVACUEE_PICKED_UP);
@@ -197,13 +202,24 @@ public class MissionLifecycleTest {
     
     private void sendCloudEvent(Mission missionObj, Status mStatus, String topic, String messageTrigger) throws JsonProcessingException, InterruptedException {
 
+
         // TO-DO: For purpose of current smoke test, this mission status is not evaluated in business process
         missionObj.setStatus(mStatus);
 
         String mJson = generateCloudEventJson(missionObj, messageTrigger);
         kafkaClient.produce(mJson, topic);
         log.infov("Sent event w/ pInstanceId: {0}, messageTrigger: {1} to topic: {2}", kogitoProcessInstanceId, messageTrigger, topic);
-        Thread.sleep(sleepBetweenStateChanges);
+        proceed = false;
+        int x = 0;
+        while(!proceed){
+            if(x < 5) {
+                Thread.sleep(sleepBetweenLockChecks);
+                x++;
+            }else {
+                log.errorv("Stuck waiting for response from sent event w/ pInstanceId: {0}, messageTrigger: {1} to topic: {2}", kogitoProcessInstanceId, messageTrigger, topic);
+                proceed=true;
+            }
+        }
     }
 
     @After
