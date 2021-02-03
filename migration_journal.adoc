@@ -38,6 +38,8 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 ... use of   link:https://github.com/cloudevents/sdk-java/blob/master/core/src/main/java/io/cloudevents/core/builder/CloudEventBuilder.java#L151[io.cloudevents.core.builder.CloudEventBuilder.v1.useExtension( ... )] to add kogito specific elements to a CloudEvent sent to Kogito
 ... Kogito specific CloudEvent extension keys (as per:  link:https://github.com/kiegroup/kogito-runtimes/blob/master/api/kogito-services/src/main/java/org/kie/kogito/services/event/AbstractProcessDataEvent.java#L23-L30[AbstractProcessDataEvent])
 
+.. Does link:https://issues.redhat.com/browse/KOGITO-2398[KOGITO-2398] make sense ?
+
 . 24 Jan 2021
 .. Created link:https://issues.redhat.com/browse/KOGITO-4249[KOGITO-4249]
 .. On Entry Action for a embedded sub-process does not seem to execute.
