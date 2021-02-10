@@ -31,6 +31,10 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
+. 10 February 2021
+.. TO-DO: Implement ER-Demo <-> Kogito topics mapping as per:  link:https://quarkus.io/guides/kafka#the-price-converter[Quarkus PriceConverter]
+.. TO-DO: Leverage CloudEvents based ER-Demo
+
 . 3 February 2021
 .. TO-DO:  research how to enable debug logging for: org.kie.kogito.event.impl.CloudEventConsumer    (which uses slf4j and not org.jboss.logmanager.LogManager)
 
