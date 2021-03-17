@@ -31,6 +31,19 @@ Subsequently, the processId needs to be of a simple String convention with no sp
 
 == Journal Details
 
+. 17 March 20201
+.. Cloud Events PoC using different `cloud-events-mode`
+... It appears that the consumer functionality of the CloudEvents Java client is intelligent enough to auto-detect whether the mode of an incoming message is `binary` or `structured`
++
+The CloudEvents Java client is able to gracefully process a message of any mode without any additional configuration or code.
+... The producer functionality of the cloud event Java client can be configured to send in `binary` mode (which is the default) or `structured`.
++
+Example configuration as follows:
++
+-----
+mp.messaging.outgoing.cloud-event-outgoing.cloud-events-mode=structured
+-----
+
 . 10 February 2021
 .. TO-DO: Implement ER-Demo <-> Kogito topics mapping as per:  link:https://quarkus.io/guides/kafka#the-price-converter[Quarkus PriceConverter]
 .. TO-DO: Leverage CloudEvents based ER-Demo
